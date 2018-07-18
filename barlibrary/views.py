@@ -5,4 +5,3 @@ from pyramid.view import view_config
 def my_view(request):
     return {'project': 'BarLibrary'}
 
-# test comment
