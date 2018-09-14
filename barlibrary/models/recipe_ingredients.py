@@ -1,14 +1,19 @@
-from sqlalchemy import Column, Integer, Text, Index
+from sqlalchemy import Column, Integer, Text
+from sqlalchemy.orm import relationship
 
-from .meta import Base
+from barlibrary.models.meta import Base
 
-class RecipeIngredients(Base):
+class RecipeIngredient(Base):
+    """
+    1 to many with Recipe -> self, Ingredients -> self
+    """
     __tablename__ = 'recipe_ingredients'
-    recipe_id = Column(Integer)
-    ingredient_id = Column(Integer)
+    id = Column(Integer, primary_key=True)
+    recipe_id = Column(Integer, foreign_key='recipes.id')
+    ingredient_id = Column(Integer, foreign_key='ingredients.id')
     quantity = Column(Integer)
     unit = Column(Text)
-    directions= Column(Text)
+    importance = Column(Integer)
 
-
-Index('my_index', RecipeIngredients.name, unique=True, mysql_length=255)
+    recipe = relationship('Recipe', back_populates='recipe_ingredient')
+    ingredient = relationship('Ingredient', back_populates='recipe_ingredient')

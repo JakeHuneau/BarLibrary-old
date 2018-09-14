@@ -1,10 +1,12 @@
-from sqlalchemy import Column, Integer, Text, Index
+from sqlalchemy import Column, Integer, Text
+from sqlalchemy.orm import relationship
 
-from .meta import Base
+from barlibrary.models.meta import Base
 
 class Recipe(Base):
     __tablename__ = 'recipes'
     id = Column(Integer, primary_key=True)
     name = Column(Text)
+    directions = Column(Text)
 
-Index('my_index', Recipe.name, unique=True, mysql_length=255)
+    recipe_ingredient = relationship('RecipeIngredient', back_populates='recipe')
