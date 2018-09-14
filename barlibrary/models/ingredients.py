@@ -6,6 +6,6 @@ from barlibrary.models.meta import Base
 class Ingredient(Base):
     __tablename__ = 'ingredients'
     id = Column(Integer, primary_key=True)
-    name = Column(Text)
+    name = Column(Text, unique=True)
 
     recipe_ingredient = relationship('RecipeIngredient', back_populates='ingredient')

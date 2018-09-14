@@ -53,8 +53,7 @@ def main(argv=sys.argv):
         tequila = Ingredient(name='tequila')
         rum = Ingredient(name='rum')
         gin = Ingredient(name='gin')
-        for liq in [whiskey, bourbon, rye, vodka, tequila, rum, gin]:
-            dbsession.add(liq)
+        dbsession.add_all([whiskey, bourbon, rye, vodka, tequila, rum, gin])
 
         angostura = Ingredient(name='angostura bitters')
         for bitter in [angostura]:
@@ -63,8 +62,50 @@ def main(argv=sys.argv):
         sugar = Ingredient(name='sugar')
         dbsession.add(sugar)
 
+        water = Ingredient(name='water')
+        dbsession.add(water)
+
+        orange = Ingredient(name='orange')
+        dbsession.add(orange)
+
+        cherry = Ingredient(name='cherry')
+        dbsession.add(cherry)
+
         old_fashioned = Recipe(name='old fashioned',
                                directions='Saturate sugar cube with bitters and a bit of water.'
                                           'Muddle until dissolved. Fill glass with ice and whiskey.'
                                           'Garnish with orange slice and cherry.')
         dbsession.add(old_fashioned)
+        dbsession.flush()
+
+        link1 = RecipeIngredient(recipe_id=old_fashioned.id,
+                                 ingredient_id=bourbon.id,
+                                 quantity=1.5,
+                                 unit='oz',
+                                 requred=1)
+        link2 = RecipeIngredient(recipe_id=old_fashioned.id,
+                                 ingredient_id=sugar.id,
+                                 quantity=1,
+                                 unit='cube',
+                                 requred=1)
+        link3 = RecipeIngredient(recipe_id=old_fashioned.id,
+                                 ingredient_id=angostura.id,
+                                 quantity=3,
+                                 unit='dash',
+                                 requred=1)
+        link4 = RecipeIngredient(recipe_id=old_fashioned.id,
+                                 ingredient_id=water.id,
+                                 quantity=1,
+                                 unit='splash',
+                                 requred=0)
+        link5 = RecipeIngredient(recipe_id=old_fashioned.id,
+                                 ingredient_id=orange.id,
+                                 quantity=1,
+                                 unit='slice',
+                                 requred=1)
+        link6 = RecipeIngredient(recipe_id=old_fashioned.id,
+                                 ingredient_id=cherry.id,
+                                 quantity=1,
+                                 unit='',
+                                 requred=0)
+        dbsession.add_all([link1, link2, link3, link4, link5, link6])

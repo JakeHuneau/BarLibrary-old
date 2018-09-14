@@ -42,8 +42,12 @@ setup(name='BarLibrary',
           'testing': tests_require,
       },
       install_requires=requires,
-      entry_points="""\
-      [paste.app_factory]
-      main = barlibrary:main
-      """,
+      entry_points= {
+          'barLibrary.app_factory': [
+              'main = barlibrary:main'
+          ],
+          'console_scripts': [
+              'initialize_db = barlibrary.scripts.initializedb:main'
+          ]
+      }
       )
