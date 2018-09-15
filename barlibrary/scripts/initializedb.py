@@ -1,39 +1,17 @@
-import os
-import sys
 import transaction
-
-from pyramid.paster import (
-    get_appsettings,
-    setup_logging,
-    )
-
-from pyramid.scripts.common import parse_vars
 
 from barlibrary.models.meta import Base
 from barlibrary.models import (
-    get_engine,
     get_session_factory,
     get_tm_session,
     )
-from barlibrary.models import Ingredient, RecipeIngredient, Recipe, User
+from barlibrary.models import Ingredient, RecipeIngredient, Recipe, User, Kitchen
+
+from sqlalchemy import create_engine
 
 
-def usage(argv):
-    cmd = os.path.basename(argv[0])
-    print('usage: %s <config_uri> [var=value]\n'
-          '(example: "%s development.ini")' % (cmd, cmd))
-    sys.exit(1)
-
-
-def main(argv=sys.argv):
-    if len(argv) < 2:
-        usage(argv)
-    config_uri = argv[1]
-    options = parse_vars(argv[2:])
-    setup_logging(config_uri)
-    settings = get_appsettings(config_uri, options=options)
-
-    engine = get_engine(settings)
+def main():
+    engine = create_engine('sqlite:///../../recipeDB.db', echo=True)
     Base.metadata.create_all(engine)
 
     session_factory = get_session_factory(engine)
@@ -42,9 +20,9 @@ def main(argv=sys.argv):
         dbsession = get_tm_session(session_factory, transaction.manager)
 
 
-        basic = User(name='Jake')
-        basic.set_password('password')
-        dbsession.add(basic)
+        jake = User(name='Jake')
+        jake.set_password('password')
+        dbsession.add(jake)
 
         whiskey = Ingredient(name='whiskey')
         bourbon = Ingredient(name='bourbon')
@@ -82,30 +60,38 @@ def main(argv=sys.argv):
                                  ingredient_id=bourbon.id,
                                  quantity=1.5,
                                  unit='oz',
-                                 requred=1)
+                                 required=1)
         link2 = RecipeIngredient(recipe_id=old_fashioned.id,
                                  ingredient_id=sugar.id,
                                  quantity=1,
                                  unit='cube',
-                                 requred=1)
+                                 required=1)
         link3 = RecipeIngredient(recipe_id=old_fashioned.id,
                                  ingredient_id=angostura.id,
                                  quantity=3,
                                  unit='dash',
-                                 requred=1)
+                                 required=1)
         link4 = RecipeIngredient(recipe_id=old_fashioned.id,
                                  ingredient_id=water.id,
                                  quantity=1,
                                  unit='splash',
-                                 requred=0)
+                                 required=0)
         link5 = RecipeIngredient(recipe_id=old_fashioned.id,
                                  ingredient_id=orange.id,
                                  quantity=1,
                                  unit='slice',
-                                 requred=1)
+                                 required=1)
         link6 = RecipeIngredient(recipe_id=old_fashioned.id,
                                  ingredient_id=cherry.id,
                                  quantity=1,
                                  unit='',
-                                 requred=0)
+                                 required=0)
         dbsession.add_all([link1, link2, link3, link4, link5, link6])
+
+        k_link1 = Kitchen(user_id=jake.id,
+                          ingredient_id=whiskey.id)
+        dbsession.add(k_link1)
+
+
+if __name__ == '__main__':
+    main()

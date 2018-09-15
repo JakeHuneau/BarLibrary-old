@@ -7,6 +7,7 @@ from barlibrary.models.ingredients import Ingredient
 from barlibrary.models.recipe_ingredients import RecipeIngredient
 from barlibrary.models.recipes import Recipe
 from barlibrary.models.user import User
+from barlibrary.models.kitchen import Kitchen
 
 configure_mappers()
 
