@@ -50,9 +50,9 @@ def main():
         dbsession.add(cherry)
 
         old_fashioned = Recipe(name='old fashioned',
-                               directions='Saturate sugar cube with bitters and a bit of water.'
-                                          'Muddle until dissolved. Fill glass with ice and whiskey.'
-                                          'Garnish with orange slice and cherry.')
+                               directions='1. Saturate sugar cube with bitters and a bit of water.\n'
+                                          '2. Muddle until dissolved.\n3. Fill glass with ice and whiskey.\n'
+                                          '4. Garnish with orange slice and cherry.')
         dbsession.add(old_fashioned)
         dbsession.flush()
 

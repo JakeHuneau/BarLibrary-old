@@ -17,3 +17,10 @@ class RecipeIngredient(Base):
 
     recipe = relationship('Recipe', back_populates='recipe_ingredient')
     ingredient = relationship('Ingredient', back_populates='recipe_ingredient')
+
+    def __repr__(self):
+        return_str = f'{self.ingredient_id}: {self.quantity} {self.unit}'
+        if not self.required:
+            return_str += ' - optional'
+
+        return return_str

@@ -10,3 +10,12 @@ class Recipe(Base):
     directions = Column(Text)
 
     recipe_ingredient = relationship('RecipeIngredient', back_populates='recipe')
+
+    def __repr__(self):
+        return_str = f'---{self.name}---\n\n-Ingredients-\n'
+        for ing in self.recipe_ingredient:
+            return_str += f'{ing}\n'
+        return_str += '\n-Directions-\n'
+        return_str += self.directions
+
+        return return_str

@@ -3,7 +3,7 @@ from pyramid.config import Configurator
 
 def main(global_config, **settings):
     """
-    This function returns a Pyramid WSGI application.
+    Main entrypoint for wsgi
     """
     config = Configurator(settings=settings)
     config.include('pyramid_jinja2')

@@ -10,8 +10,8 @@ from barlibrary.models import Recipe
 def home_view(request):
     try:
         query = request.dbsession.query(Recipe)
-        one = query.filter(Recipe.name == 'old fashioned').first()
-    except DBAPIError:
+        one = query.filter_by(name='old fashioned').one()
+    except DBAPIError as e:
         return Response(db_err_msg, content_type='text/plain', status=500)
     return {'one': one, 'project': 'barLibrary'}
 

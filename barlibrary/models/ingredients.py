@@ -10,3 +10,6 @@ class Ingredient(Base):
 
     recipe_ingredient = relationship('RecipeIngredient', back_populates='ingredient')
     kitchen = relationship('Kitchen', back_populates='ingredient')
+
+    def __repr__(self):
+        return self.name
