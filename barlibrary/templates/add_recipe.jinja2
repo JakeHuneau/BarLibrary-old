@@ -6,4 +6,22 @@
 <body>
     <p>This page is for adding a new recipe</p>
 </body>
+<form method="POST" action="{{ request.route_path('add_recipe') }}">
+    Recipe Name:
+    <br>
+    <input title="recipe_name"
+           name="recipe_name"
+           type="text"
+           value="Put recipe name" >
+    <br>
+    Ingredients (separate by commas):
+    <br>
+    <textarea title="ingredients" name="ingredients" cols="50" rows="10">ex: whiskey, sugar, bitters, cherry</textarea>
+    <br>
+    Directions (separate by semicolon):
+    <br>
+    <textarea title="directions" name="directions" cols="50" rows="10">ex: Muddle sugar; pour whiskey; add cherry</textarea>
+    <br>
+    <input type="submit" value="Submit" >
+</form>
 </html>
