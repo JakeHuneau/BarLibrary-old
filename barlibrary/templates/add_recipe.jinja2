@@ -31,7 +31,7 @@
     </body>
 {% else %}
     <body>
-        <p>Recipe added successfully:{{ recipe }}</p>
+        <p>Recipe added successfully:<br>{{ recipe | safe }}</p>
     </body>
 {% endif %}
 </html>

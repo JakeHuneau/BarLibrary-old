@@ -24,7 +24,7 @@ def add_to_db(db, params):
         raise RecipeAlreadyExists()
 
     # break apart the directions and add a number in front of each direction.
-    numbered_directions = ''.join(f'{i}. {d.strip()}. ' for i, d in enumerate(directions.split(';'))).strip()
+    numbered_directions = ''.join(f'{i+1}. {d.strip()}. ' for i, d in enumerate(directions.split(';'))).strip()
     recipe = Recipe(name=recipe_name, directions=numbered_directions)
     db.add(recipe)
 

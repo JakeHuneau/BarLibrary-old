@@ -19,7 +19,7 @@ def add_recipe_view(request):
                            'directions': request.params.get('directions')}
         try:
             recipe = add_to_db(request.dbsession, request.params)
-            return_template['recipe_name'] = recipe
+            return_template['recipe'] = str(recipe).replace('\n', '<br>')
         except BadIngredientInput:
             return_template['bad_ingredient_input'] = True
         except RecipeAlreadyExists:
