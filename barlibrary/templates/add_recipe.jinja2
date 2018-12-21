@@ -9,19 +9,29 @@
 <form method="POST" action="{{ request.route_path('add_recipe') }}">
     Recipe Name:
     <br>
-    <input title="recipe_name"
-           name="recipe_name"
-           type="text"
-           value="Put recipe name" >
+    <textarea title="recipe_name" name="recipe_name" cols="50">{% if recipe_name %}{{ recipe_name }}{% else %}Put recipe name{% endif %}</textarea>
     <br>
-    Ingredients (separate by commas):
+    Ingredients (separate by commas with amount in brackets and x at end if not needed):
     <br>
-    <textarea title="ingredients" name="ingredients" cols="50" rows="10">ex: whiskey, sugar, bitters, cherry</textarea>
+    <textarea title="ingredients" name="ingredients" cols="50" rows="10">{% if ingredients %}{{ ingredients }}{% else %}ex: whiskey [1.0 oz], sugar [1 cube], cherry [1] x, bitters [2 dash]{% endif %}</textarea>
     <br>
     Directions (separate by semicolon):
     <br>
-    <textarea title="directions" name="directions" cols="50" rows="10">ex: Muddle sugar; pour whiskey; add cherry</textarea>
+    <textarea title="directions" name="directions" cols="50" rows="10">{% if directions %}{{ directions }}{% else %}ex: Muddle sugar; pour whiskey; add cherry{% endif %}</textarea>
     <br>
     <input type="submit" value="Submit" >
 </form>
+{% if bad_ingredient_input %}
+    <body>
+        <p>Bad</p>
+    </body>
+{% elif recipe_exists %}
+    <body>
+        <p>Recipe already exists</p>
+    </body>
+{% else %}
+    <body>
+        <p>Recipe added successfully:{{ recipe }}</p>
+    </body>
+{% endif %}
 </html>
