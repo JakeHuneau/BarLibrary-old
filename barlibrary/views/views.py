@@ -37,4 +37,6 @@ def remove_recipe_view(request):
 
 @view_config(route_name='find_recipes', renderer='../templates/find_recipes.jinja2')
 def find_recipes_view(request):
+    if request.method == 'GET':
+        print(1)
     return {}
