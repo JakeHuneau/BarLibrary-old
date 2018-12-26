@@ -13,8 +13,8 @@ class Recipe(Base):
 
     def __repr__(self):
         return_str = f'---{self.name}---\n\n-Ingredients-\n'
-        for ing in self.recipe_ingredient:
-            return_str += f'{ing}\n'
+        for ingredient in self.recipe_ingredient:
+            return_str += f'{ingredient}\n'
         return_str += '\n-Directions-\n'
         return_str += self.directions
 

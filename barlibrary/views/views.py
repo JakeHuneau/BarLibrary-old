@@ -4,6 +4,7 @@ from pyramid.view import view_config
 from sqlalchemy.exc import DBAPIError
 
 from .add import add_to_db
+from .find import find_recipes
 from ..exceptions import BadIngredientInput, RecipeAlreadyExists
 
 
@@ -38,5 +39,11 @@ def remove_recipe_view(request):
 @view_config(route_name='find_recipes', renderer='../templates/find_recipes.jinja2')
 def find_recipes_view(request):
     if request.method == 'GET':
-        print(1)
+        ingredients = request.params.get('ingredients')
+        return_template = {'ingredients': ingredients}
+        if ingredients:  # Make sure not none
+            ingredients = [i.lower().strip() for i in ingredients.split(',')]
+        recipes = find_recipes(request.dbsession, ingredients)
+        return_template['recipes_found'] = recipes
+        return return_template
     return {}

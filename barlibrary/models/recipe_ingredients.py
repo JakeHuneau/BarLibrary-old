@@ -19,8 +19,8 @@ class RecipeIngredient(Base):
     ingredient = relationship('Ingredient', back_populates='recipe_ingredient')
 
     def __repr__(self):
-        return_str = f'{self.ingredient_id}: {self.quantity} {self.unit}'
-        if not self.required:
+        return_str = f'recipe_id[{self.recipe_id}] ingredient_id[{self.ingredient_id}] quantity[{self.quantity} {self.unit}]'
+        if self.required == 0:
             return_str += ' - optional'
 
         return return_str
