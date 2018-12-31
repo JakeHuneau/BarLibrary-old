@@ -14,7 +14,9 @@ def home_view(request):
 
 @view_config(route_name='add_recipe', renderer='../templates/add_recipe.jinja2')
 def add_recipe_view(request):
+    print('okay')
     if request.method == 'POST':
+        print('no')
         return_template = {'recipe_name': request.params.get('recipe_name'),
                            'ingredients': request.params.get('ingredients'),
                            'directions': request.params.get('directions')}
@@ -26,6 +28,7 @@ def add_recipe_view(request):
         except RecipeAlreadyExists:
             return_template['recipe_exists'] = True
         return return_template
+    print('okay2')
     return {}
 
 @view_config(route_name='edit_recipe', renderer='../templates/edit_recipe.jinja2')
@@ -38,7 +41,7 @@ def remove_recipe_view(request):
 
 @view_config(route_name='find_recipes', renderer='../templates/find_recipes.jinja2')
 def find_recipes_view(request):
-    if request.method == 'GET':
+    if request.method == 'POST':
         ingredients = request.params.get('ingredients')
         return_template = {'ingredients': ingredients}
         if ingredients:  # Make sure not none
