@@ -50,3 +50,7 @@ def find_recipes_view(request):
         return_template['recipes_found'] = recipes
         return return_template
     return {}
+
+@view_config(route_name='find_all', renderer='../templates/find_all.jinja2')
+def find_all_with_ingredients(request):
+    return {}
