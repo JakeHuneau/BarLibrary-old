@@ -1,9 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Edit Recipe</title>
+    <title>Find All Recipe</title>
 </head>
 <body>
-    <p>This page is for adding a Finding all recipes with a list of ingredients</p>
+    <p>This page is for finding all recipes that contain any given ingredient.</p>
 </body>
+</body>
+<form method="GET" action="{{ request.route_path('find_all') }}">
+    Ingredients (separate by commas):
+    <br>
+    <textarea title="ingredients" name="ingredients" cols="50" rows="10">{% if ingredients %}{{ ingredients }}{% else %}ex: vodka{% endif %}</textarea>
+    <br>
+    <input type="submit" value="Search" >
+</form>
+{% if bad_ingredient_list %}
+    <body>
+        <p>Problem with list of ingredients provided</p>
+    </body>
+{% else %}
+    {% if recipes_found %}
+        {% for recipe in recipes_found %}
+<br>**************************************************
+{{ recipe | safe }}
+<br>**************************************************<br>
+        {% endfor %}
+    {% endif %}
+{% endif %}
 </html>

@@ -14,10 +14,8 @@ def find_recipes(db, ingredients_str):
     Returns:
         (List[Recipe])
     """
-    if not ingredients_str:
-        return []
     ingredients = set()
-    for ingredient_str in ingredients_str:
+    for ingredient_str in set(ingredients_str):
         ingredient = db.query(Ingredient).filter_by(name=ingredient_str).first()
         if ingredient:
             ingredients.add(ingredient)
@@ -36,6 +34,19 @@ def find_recipes(db, ingredients_str):
             found_recipes.add(possible_recipe_id)
 
     return [format_recipe(db, found_recipe) for found_recipe in found_recipes]
+
+
+def find_all_recipes(db, ingredients_str):
+    ingredients = set()
+    for ingredient_str in set(ingredients_str):
+        ingredient = db.query(Ingredient).filter_by(name=ingredient_str).first()
+        if ingredient:
+            ingredients.add(ingredient)
+    recipes = set()
+    for ingredient in ingredients:
+        for found_recipe in db.query(RecipeIngredient).filter_by(ingredient_id=ingredient.id).all():
+            recipes.add(found_recipe)
+    return [format_recipe(db, recipe) for recipe in recipes]
 
 
 def format_recipe(db, found_recipe):
