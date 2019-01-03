@@ -14,6 +14,8 @@ def find_recipes(db, ingredients_str):
     Returns:
         (List[Recipe])
     """
+    if not ingredients_str:
+        return []
     ingredients = set()
     for ingredient_str in ingredients_str:
         ingredient = db.query(Ingredient).filter_by(name=ingredient_str).first()

@@ -7,3 +7,4 @@ def includeme(config):
     config.add_route('edit_recipe', 'edit_recipe')
     config.add_route('remove_recipe', 'remove_recipe')
     config.add_route('find_recipes', 'find_recipes')
+    config.add_route('find_all', 'find_all')
