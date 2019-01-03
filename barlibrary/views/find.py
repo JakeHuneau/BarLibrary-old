@@ -45,7 +45,7 @@ def find_all_recipes(db, ingredients_str):
     recipes = set()
     for ingredient in ingredients:
         for found_recipe in db.query(RecipeIngredient).filter_by(ingredient_id=ingredient.id).all():
-            recipes.add(found_recipe)
+            recipes.add(found_recipe.recipe_id)
     return [format_recipe(db, recipe) for recipe in recipes]
 
 
@@ -89,5 +89,4 @@ def pretty_directions(directions_str):
         if old_str == directions_str:
             break
         step += 1
-    print(directions_str)
     return directions_str
