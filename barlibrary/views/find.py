@@ -55,6 +55,28 @@ def format_recipe(db, found_recipe):
     for ingredient in recipe.recipe_ingredient:
         ingredient_name = db.query(Ingredient.name).filter_by(id=ingredient.ingredient_id).first()[0]
         return_str += f'{ingredient_name}: {ingredient.quantity} {ingredient.unit}<br>'
-    return_str += f'<br>-Directions-<br>{recipe.directions}'
+    return_str += f'<br>-Directions-<br>{pretty_directions(recipe.directions)}'
     return return_str
 
+
+def pretty_directions(directions_str):
+    """
+    Puts a newline before each number in directions.
+
+    Args:
+        directions_str: (str) Looks like "1. something. 2. Something else"
+
+    Returns:
+        (str) pretty directions that look like:
+            1. something
+            2. something else
+    """
+    step = 2
+    while True:
+        old_str = directions_str
+        directions_str = directions_str.replace(f'{step}. ', f'<br>{step}. ')
+        if old_str == directions_str:
+            break
+        step += 1
+    print(directions_str)
+    return directions_str
