@@ -64,6 +64,8 @@ def parse_ingredient(ingredient_str):
     pattern = r'^\s*(?P<name>.+)\s+\[(?P<quantity>(\d *\.)?\d+)\s*(?P<unit>.+)?\]\s*(?P<required>x)?$'
     p = re.compile(pattern)
     res = p.match(ingredient_str)
+    if not res:
+        raise BadIngredientInput
     groups = res.groupdict()
     ingredient_name = groups.get('name')
     quantity = float(groups.get('quantity'))
