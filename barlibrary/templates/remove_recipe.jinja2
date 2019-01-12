@@ -6,4 +6,32 @@
 <body>
     <p>This page is for removing a new recipe</p>
 </body>
+<form method="POST" action="{{ request.route_path('remove_recipe') }}">
+    Recipe Name:
+    <br>
+    <textarea title="recipe_name" name="recipe_name" cols="50">Put recipe name</textarea>
+    <br>
+    <input type="submit" value="Submit" >
+</form>
+{% if bad_ingredient_input %}
+    <body>
+        <p>Problem with recipe provided</p>
+    </body>
+{% elif recipe_doesnt_exists %}
+    <body>
+        <p>Recipe doesn't exist</p>
+    </body>
+{% else %}
+    {% if success is defined %}
+        {% if success %}
+        <body>
+            <p>Recipe deleted</p>
+        </body>
+        {% else %}
+        <body>
+            <p>Error deleting recipe</p>
+        </body>
+        {% endif %}
+    {% endif %}
+{% endif %}
 </html>

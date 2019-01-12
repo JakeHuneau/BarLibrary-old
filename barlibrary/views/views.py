@@ -1,11 +1,9 @@
-from pyramid.response import Response
 from pyramid.view import view_config
-
-from sqlalchemy.exc import DBAPIError
 
 from .add import add_to_db
 from .find import find_recipes, find_all_recipes
-from ..exceptions import BadIngredientInput, RecipeAlreadyExists
+from .delete import delete_recipe
+from ..exceptions import BadIngredientInput, RecipeAlreadyExists, RecipeDoesntExist
 
 
 @view_config(route_name='home', renderer='../templates/home.jinja2')
@@ -30,6 +28,18 @@ def add_recipe_view(request):
 
 @view_config(route_name='remove_recipe', renderer='../templates/remove_recipe.jinja2')
 def remove_recipe_view(request):
+    if request.method == 'POST':
+        return_template = {}
+
+        try:
+            result = delete_recipe(request.dbsession, request.params)
+            return_template['success'] = result
+        except BadIngredientInput:
+            return_template['bad_ingredient_input'] = True
+        except RecipeDoesntExist:
+            return_template['recipe_doesnt_exist'] = True
+        return return_template
+
     return {}
 
 @view_config(route_name='find_recipes', renderer='../templates/find_recipes.jinja2')
