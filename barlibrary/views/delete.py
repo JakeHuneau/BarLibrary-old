@@ -21,7 +21,7 @@ def delete_recipe(db, params):
 
     recipe_id = recipe.id
 
-    db.delete(recipe)
     db.query(RecipeIngredient).filter(RecipeIngredient.recipe_id == recipe_id).delete()
+    db.delete(recipe)
 
     return True
