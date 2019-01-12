@@ -4,7 +4,6 @@ def includeme(config):
     # Home page which will have buttons add_recipe and search_recipes
     config.add_route('home', '/')
     config.add_route('add_recipe', 'add_recipe')
-    config.add_route('edit_recipe', 'edit_recipe')
     config.add_route('remove_recipe', 'remove_recipe')
     config.add_route('find_recipes', 'find_recipes')
     config.add_route('find_all', 'find_all')

@@ -4,3 +4,7 @@ class BadIngredientInput(Exception):
 
 class RecipeAlreadyExists(Exception):
     pass
+
+
+class RecipeDoesntExist(Exception):
+    pass

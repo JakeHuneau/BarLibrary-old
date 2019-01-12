@@ -28,10 +28,6 @@ def add_recipe_view(request):
         return return_template
     return {}
 
-@view_config(route_name='edit_recipe', renderer='../templates/edit_recipe.jinja2')
-def edit_recipe_view(request):
-    return {}
-
 @view_config(route_name='remove_recipe', renderer='../templates/remove_recipe.jinja2')
 def remove_recipe_view(request):
     return {}
