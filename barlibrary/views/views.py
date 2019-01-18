@@ -10,6 +10,10 @@ from ..exceptions import BadIngredientInput, RecipeAlreadyExists, RecipeDoesntEx
 def home_view(request):
     return {}
 
+@view_config(route_name='bar_library_home', renderer='../templates/bar_library_home.jinja2')
+def bar_library_home_view(request):
+    return {}
+
 @view_config(route_name='add_recipe', renderer='../templates/add_recipe.jinja2')
 def add_recipe_view(request):
     if request.method == 'POST':
