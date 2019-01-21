@@ -9,6 +9,7 @@ class User(Base):
     id = Column(Integer, primary_key=True)
     name = Column(Text)
     password_hash = Column(Text)
+    permissions = Column(Integer, default=0)
 
     kitchen = relationship('Kitchen', back_populates='user')
 
