@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>User Account</title>
+</head>
+<body>
+    <p>This page is for user stuff.</p>
+</body>
+
+<form action="{{ request.route_path('user_page') }}" method="post">
+    <label for="login">Username</label>
+    <input type="text" id="login"
+           name="login"
+           value="{{ login }}"/><br/>
+    <label for="password">Password</label>
+    <input type="password" id="password"
+           name="password"
+           value="{{ password }}"/><br/>
+    <input type="submit" name="user_form.submitted"
+           value="Log In"/>
+</form>
+
+{% if message is defined %}
+<body>
+{{ message }}
+</body>
+{% endif %}
+
+
+</html>

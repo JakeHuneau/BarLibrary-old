@@ -1,8 +1,10 @@
 from pyramid.view import view_config
+from pyramid.security import remember, forget
 
 from .add import add_to_db
 from .find import find_recipes, find_all_recipes
 from .delete import delete_recipe
+from ..security import USERS, check_password
 from ..exceptions import BadIngredientInput, RecipeAlreadyExists, RecipeDoesntExist
 
 
@@ -65,3 +67,24 @@ def find_all_with_ingredients(request):
             return_template['recipes_found'] = recipes
         return return_template
     return {}
+
+@view_config(route_name='user_page', renderer='../templates/user.jinja2')
+def user_page(request):
+    message = ''
+    login = ''
+    password = ''
+    if 'user_form.submitted' in request.params:
+        login = request.params['login']
+        password = request.params['password']
+        hashed_pw = USERS.get(login)
+        if hashed_pw and check_password(password, hashed_pw):
+            headers = remember(request, login)
+            message = 'Successful login'
+        else:
+            message = 'Failed login'
+
+    return dict(
+        message=message,
+        login=login,
+        password=password,
+    )

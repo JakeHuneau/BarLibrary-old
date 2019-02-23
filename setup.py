@@ -9,16 +9,12 @@ with open(os.path.join(here, 'CHANGES.txt')) as f:
     CHANGES = f.read()
 
 requires = [
+    'sqlalchemy',
+    'bcrypt',
     'pyramid',
     'pyramid_jinja2',
     'pyramid_debugtoolbar',
     'waitress',
-    ]
-
-tests_require = [
-    'WebTest >= 1.3.1',  # py3 compat
-    'pytest',  # includes virtualenv
-    'pytest-cov',
     ]
 
 setup(name='BarLibrary',
@@ -38,12 +34,10 @@ setup(name='BarLibrary',
       packages=find_packages(),
       include_package_data=True,
       zip_safe=False,
-      extras_require={
-          'testing': tests_require,
-      },
+      extras_require={},
       install_requires=requires,
       entry_points= {
-          'barLibrary.app_factory': [
+          'paste.app_factory': [
               'main = barlibrary:main'
           ],
           'console_scripts': [
