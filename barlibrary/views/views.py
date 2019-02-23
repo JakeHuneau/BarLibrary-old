@@ -6,10 +6,6 @@ from .delete import delete_recipe
 from ..exceptions import BadIngredientInput, RecipeAlreadyExists, RecipeDoesntExist
 
 
-@view_config(route_name='home', renderer='../templates/home.jinja2')
-def home_view(request):
-    return {}
-
 @view_config(route_name='bar_library_home', renderer='../templates/bar_library_home.jinja2')
 def bar_library_home_view(request):
     return {}
