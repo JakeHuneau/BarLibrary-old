@@ -39,6 +39,5 @@ def update_kitchen(db, user, ingredients):
         for add_id in to_add:
             db.add(Kitchen(user_id=user_id, ingredient_id=add_id))
         for delete_id in to_remove:
-            to_remove = db.query(Kitchen).filter(and_(Kitchen.user_id==user_id, Kitchen.ingredient_id==delete_id)).first()
-            db.delete(to_remove)
+            db.query(Kitchen).filter(and_(Kitchen.user_id==user_id, Kitchen.ingredient_id==delete_id)).delete()
     return True

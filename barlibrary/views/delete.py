@@ -1,5 +1,7 @@
+import transaction
+
 from ..exceptions import BadIngredientInput, RecipeDoesntExist
-from ..models import Recipe, RecipeIngredient
+from ..models import Recipe, RecipeIngredient, Ingredient
 
 
 def delete_recipe(db, params):
@@ -21,7 +23,15 @@ def delete_recipe(db, params):
 
     recipe_id = recipe.id
 
-    db.query(RecipeIngredient).filter(RecipeIngredient.recipe_id == recipe_id).delete()
-    db.delete(recipe)
+    ingredient_ids = {r.ingredient_id for r in db.query(RecipeIngredient).filter(RecipeIngredient.recipe_id == recipe_id).all()}
+    with transaction.manager:
+        db.query(RecipeIngredient).filter(RecipeIngredient.recipe_id == recipe_id).delete()
+        db.delete(recipe)
+
+    for ingredient_id in ingredient_ids:
+        remaining_recipes = db.query(RecipeIngredient).filter(RecipeIngredient.ingredient_id == ingredient_id).count()
+        if not remaining_recipes:  # Remove orphans
+            with transaction.manager:
+                db.query(Ingredient).filter(Ingredient.id == ingredient_id).delete()
 
     return True
