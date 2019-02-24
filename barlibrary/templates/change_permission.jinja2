@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Add Recipe</title>
+</head>
+<body>
+    <p>This page is for changing permissions</p>
+{% if get_out %}
+<p>{{ get_out }}</p>
+{% else %}
+    <p>1: Add<br>2: Remove<br>4: Change permissions</p>
+{% endif %}
+</body>
+<form method="POST" action="{{ request.route_path('change_permission') }}">
+    <label for="login">Username</label>
+    <input type="text" id="user"
+           name="user"><br/>
+    <label for="login">Permission</label>
+    <input type="text" id="permission"
+           name="permission"><br/>
+    <input type="submit" name="form.submitted" value="Change Permission"/>
+</form>
+{% if message %}
+{{ message }}
+{% endif %}
+</html>

@@ -9,7 +9,7 @@ class User(Base):
     id = Column(Integer, primary_key=True)
     name = Column(Text)
     password_hash = Column(Text)
-    permissions = Column(Integer, default=0)  # 0 can read, 1 can write, 2 can delete
+    permissions = Column(Integer, default=0)  # 0 can read, 1 can write, 2 can delete, 4 can change users
 
     kitchen = relationship('Kitchen', back_populates='user')
 

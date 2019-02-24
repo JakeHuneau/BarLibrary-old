@@ -3,7 +3,8 @@ from pyramid.view import view_config
 from .add import add_to_db
 from .find import find_recipes, find_all_recipes
 from .delete import delete_recipe
-from ..security import validate_user
+from .change_permission import change_user_permission
+from ..security import validate_user, add_user
 from ..exceptions import BadIngredientInput, RecipeAlreadyExists, RecipeDoesntExist
 
 
@@ -12,13 +13,15 @@ def bar_library_home_view(request):
     return_dict = {}
     if request.session.get('permission', 0) & 1:
         return_dict['can_write'] = True
-    if request.session.get('permission', 1) & 2:
+    if request.session.get('permission', 0) & 2:
         return_dict['can_delete'] = True
+    if request.session.get('permission', 0) & 4:
+        return_dict['can_change_permissions'] = True
     return return_dict
 
 @view_config(route_name='add_recipe', renderer='../templates/add_recipe.jinja2')
 def add_recipe_view(request):
-    if not request.session.get('permission', 0) & 1:
+    if not request.session.get('permission', 0) & 1:  # Can add
         return {'get_out': 'YOU SHOULD NOT BE HERE.'}
     if request.method == 'POST':
         return_template = {'recipe_name': request.params.get('recipe_name'),
@@ -36,7 +39,7 @@ def add_recipe_view(request):
 
 @view_config(route_name='remove_recipe', renderer='../templates/remove_recipe.jinja2')
 def remove_recipe_view(request):
-    if not request.session.get('permission', 0) & 1:
+    if not request.session.get('permission', 0) & 2:  # Can delete
         return {'get_out': 'YOU SHOULD NOT BE HERE.'}
     if request.method == 'POST':
         return_template = {}
@@ -99,4 +102,29 @@ def user_page(request):
         request.session['permission'] = 0
         request.session['user'] = ''
         return {'message': 'Successfully logged out'}
+    elif 'new_user.submitted' in request.params:
+        login = request.params['login']
+        password = request.params['password']
+        add_success = add_user(request.dbsession, login, password)
+        if add_success == -1:
+            message = 'Unknown error.'
+        elif add_success == 0:
+            message = 'User already exists.'
+        else:
+            message = 'Added user'
+        return {'message': message}
+    return {}
+
+
+@view_config(route_name='change_permission', renderer='../templates/change_permission.jinja2')
+def change_permission(request):
+    if not request.session.get('permission', 0) & 4:  # Can add
+        return {'get_out': 'YOU SHOULD NOT BE HERE.'}
+    if 'form.submitted' in request.params:
+        user = request.params['user']
+        permission = int(request.params['permission'])
+        success = change_user_permission(request.dbsession, user, permission)
+        if success:
+            return {'message': 'Success'}
+        return {'message': 'Failed'}
     return {}

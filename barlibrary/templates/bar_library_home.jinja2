@@ -14,5 +14,8 @@
 <li><a href="{{ request.application_url }}/find_recipes">What can I make?</a></li>
 <li><a href="{{ request.application_url }}/find_all">What are all the recipes that contain these ingredients?</a></li>
 <li><a href="{{ request.application_url }}/user_page">User page</a></li>
+{% if can_change_permissions %}
+<li><a href="{{ request.application_url }}/change_permission">change Permissions</a></li>
+{% endif %}
 </body>
 </html>
