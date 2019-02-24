@@ -7,15 +7,15 @@
     <p>This page is for user stuff.</p>
 </body>
 
-<form action="{{ request.route_path('user_page') }}" method="post">
+<form action="{{ request.route_path('user_page') }}" method="POST">
     <label for="login">Username</label>
     <input type="text" id="login"
            name="login"
-           value="{{ login }}"/><br/>
+           value={% if login is defined %}{{ login }}{% endif %}><br/>
     <label for="password">Password</label>
     <input type="password" id="password"
            name="password"
-           value="{{ password }}"/><br/>
+           value={% if password is defined %}{{ password }}{% endif %}><br/>
     <input type="submit" name="user_form.submitted"
            value="Log In"/>
 </form>
@@ -25,6 +25,5 @@
 {{ message }}
 </body>
 {% endif %}
-
 
 </html>

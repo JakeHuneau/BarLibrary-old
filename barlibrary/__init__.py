@@ -1,19 +1,21 @@
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
+from pyramid.session import SignedCookieSessionFactory
 from pyramid.config import Configurator
-
-from .security import groupfinder
 
 
 def main(global_config, **settings):
     """
     Main entrypoint for wsgi
     """
-    config = Configurator(settings=settings)
+    my_session_factory = SignedCookieSessionFactory('itsaseekreet')
+
+    config = Configurator(settings=settings,
+                          session_factory=my_session_factory)
     config.include('pyramid_jinja2')
 
     authn_policy = AuthTktAuthenticationPolicy(
-        settings['BarLibrary.secret'], callback=groupfinder,
+        settings['BarLibrary.secret'], callback=None,
         hashalg='sha512')
     authz_policy = ACLAuthorizationPolicy()
     config.set_authentication_policy(authn_policy)
