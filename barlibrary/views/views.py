@@ -9,10 +9,17 @@ from ..exceptions import BadIngredientInput, RecipeAlreadyExists, RecipeDoesntEx
 
 @view_config(route_name='bar_library_home', renderer='../templates/bar_library_home.jinja2')
 def bar_library_home_view(request):
-    return {}
+    return_dict = {}
+    if request.session.get('permission', 0) & 1:
+        return_dict['can_write'] = True
+    if request.session.get('permission', 1) & 2:
+        return_dict['can_delete'] = True
+    return return_dict
 
 @view_config(route_name='add_recipe', renderer='../templates/add_recipe.jinja2')
 def add_recipe_view(request):
+    if not request.session.get('permission', 0) & 1:
+        return {'get_out': 'YOU SHOULD NOT BE HERE.'}
     if request.method == 'POST':
         return_template = {'recipe_name': request.params.get('recipe_name'),
                            'ingredients': request.params.get('ingredients'),
@@ -29,6 +36,8 @@ def add_recipe_view(request):
 
 @view_config(route_name='remove_recipe', renderer='../templates/remove_recipe.jinja2')
 def remove_recipe_view(request):
+    if not request.session.get('permission', 0) & 1:
+        return {'get_out': 'YOU SHOULD NOT BE HERE.'}
     if request.method == 'POST':
         return_template = {}
 
@@ -86,4 +95,8 @@ def user_page(request):
         return {'message': message,
                 'login': login,
                 'password': password}
+    elif 'logout.submitted' in request.params:
+        request.session['permission'] = 0
+        request.session['user'] = ''
+        return {'message': 'Successfully logged out'}
     return {}

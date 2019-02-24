@@ -5,6 +5,9 @@
 </head>
 <body>
     <p>This page is for adding a new recipe</p>
+{% if get_out %}
+<p>{{ get_out }}</p>
+{% endif %}
 </body>
 <form method="POST" action="{{ request.route_path('add_recipe') }}">
     Recipe Name:
@@ -30,8 +33,10 @@
         <p>Recipe already exists</p>
     </body>
 {% else %}
-    <body>
-        <p>Recipe added successfully:<br>{{ recipe | safe }}</p>
-    </body>
+    {% if recipe %}
+        <body>
+            <p>Recipe added successfully:<br>{{ recipe | safe }}</p>
+        </body>
+    {% endif %}
 {% endif %}
 </html>

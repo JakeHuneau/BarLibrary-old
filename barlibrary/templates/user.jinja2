@@ -18,6 +18,8 @@
            value={% if password is defined %}{{ password }}{% endif %}><br/>
     <input type="submit" name="user_form.submitted"
            value="Log In"/>
+    <input type="submit" name="logout.submitted"
+           value="Log Out"/>
 </form>
 
 {% if message is defined %}

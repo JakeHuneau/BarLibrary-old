@@ -5,6 +5,9 @@
 </head>
 <body>
     <p>This page is for removing a new recipe</p>
+{% if get_out %}
+<p>{{ get_out }}</p>
+{% endif %}
 </body>
 <form method="POST" action="{{ request.route_path('remove_recipe') }}">
     Recipe Name:
