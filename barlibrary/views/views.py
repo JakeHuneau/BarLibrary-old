@@ -1,9 +1,10 @@
 from pyramid.view import view_config
 
 from .add import add_to_db
-from .find import find_recipes, find_all_recipes
-from .delete import delete_recipe
 from .change_permission import change_user_permission
+from .delete import delete_recipe
+from .find import find_recipes, find_all_recipes
+from .kitchen import get_all_ingredients, update_kitchen
 from ..security import validate_user, add_user
 from ..exceptions import BadIngredientInput, RecipeAlreadyExists, RecipeDoesntExist
 
@@ -81,6 +82,9 @@ def find_all_with_ingredients(request):
 
 @view_config(route_name='user_page', renderer='../templates/user.jinja2')
 def user_page(request):
+    return_dict = dict()
+    if request.session.get('user'):
+        return_dict['logged_in'] = True
     if 'user_form.submitted' in request.params:
         login = request.params['login']
         password = request.params['password']
@@ -95,13 +99,15 @@ def user_page(request):
             request.session['user'] = login
         else:
             message = 'Unknown error with login.'
-        return {'message': message,
-                'login': login,
-                'password': password}
+        return_dict['message'] = message
+        return_dict['login'] = login
+        return_dict['password'] = password
+        return return_dict
     elif 'logout.submitted' in request.params:
         request.session['permission'] = 0
         request.session['user'] = ''
-        return {'message': 'Successfully logged out'}
+        return_dict['message'] = 'Successfully logged out'
+        return return_dict
     elif 'new_user.submitted' in request.params:
         login = request.params['login']
         password = request.params['password']
@@ -112,7 +118,8 @@ def user_page(request):
             message = 'User already exists.'
         else:
             message = 'Added user'
-        return {'message': message}
+        return_dict['message'] = message
+        return return_dict
     return {}
 
 
@@ -128,3 +135,14 @@ def change_permission(request):
             return {'message': 'Success'}
         return {'message': 'Failed'}
     return {}
+
+@view_config(route_name='kitchen', renderer='../templates/kitchen.jinja2')
+def kitchen(request):
+    user = request.session.get('user')
+    if not user:
+        return {'get_out': 'YOU SHOULD NOT BE HERE. PLEASE LOG INTO AN ACCOUNT.'}
+    if 'update_ingredients.submitted' in request.params:
+        checked_ingredients = {ing[0] for ing in request.params.items() if ing[1] == 'on'}
+        update_kitchen(request.dbsession, user, checked_ingredients)
+    kitchen_dict = get_all_ingredients(request.dbsession, user)
+    return {'kitchen_dict': kitchen_dict}

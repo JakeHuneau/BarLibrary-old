@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>User Kitchen</title>
+</head>
+<body>
+    <p>This page is for showing what ingredients you have in your kitchen.</p>
+</body>
+
+{% if get_out %}
+{{ get_out }}
+{% endif %}
+
+<form action="{{ request.route_path('kitchen') }}" method="GET">
+{% for key, value in kitchen_dict.items() %}
+<input type="checkbox" name="{{ key }}" title="{{ key }}" {% if value %}checked="checked"{% endif %}>{{ key }}<br>
+{% endfor %}
+<input type="submit" name="update_ingredients.submitted" value="Update ingredients"/>
+</form>
+
+</html>

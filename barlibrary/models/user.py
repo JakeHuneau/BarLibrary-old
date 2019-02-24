@@ -11,8 +11,6 @@ class User(Base):
     password_hash = Column(Text)
     permissions = Column(Integer, default=0)  # 0 can read, 1 can write, 2 can delete, 4 can change users
 
-    kitchen = relationship('Kitchen', back_populates='user')
-
     def set_password(self, pw):
         pwhash = bcrypt.hashpw(pw.encode('utf8'), bcrypt.gensalt())
         self.password_hash = pwhash.decode('utf8')

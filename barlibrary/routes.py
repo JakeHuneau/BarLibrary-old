@@ -9,3 +9,4 @@ def includeme(config):
     config.add_route('find_all', 'find_all')
     config.add_route('user_page', 'user_page')
     config.add_route('change_permission', 'change_permission')
+    config.add_route('kitchen', 'kitchen')

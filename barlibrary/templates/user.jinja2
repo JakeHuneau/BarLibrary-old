@@ -29,4 +29,8 @@
 </body>
 {% endif %}
 
+{% if logged_in %}
+<a href="{{ request.application_url }}/kitchen">Kitchen</a>
+{% endif %}
+
 </html>

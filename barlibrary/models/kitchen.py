@@ -11,6 +11,3 @@ class Kitchen(Base):
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id'))
     ingredient_id = Column(Integer, ForeignKey('ingredients.id'))
-
-    user = relationship('User', back_populates='kitchen')
-    ingredient = relationship('Ingredient', back_populates='kitchen')
