@@ -1,6 +1,6 @@
 from collections import defaultdict
 
-from ..models import Recipe, RecipeIngredient, Ingredient
+from ..models import Recipe, RecipeIngredient, Ingredient, Kitchen, User
 
 
 def find_recipes(db, ingredients_str):
@@ -91,3 +91,9 @@ def pretty_directions(directions_str):
             break
         step += 1
     return directions_str
+
+def get_initial_list(db, user):
+    user_id = db.query(User).filter(User.name == user).first().id
+    ingredient_ids = {k.ingredient_id for k in db.query(Kitchen).filter(Kitchen.user_id == user_id).all()}
+    ingredient_names = [k.name for k in db.query(Ingredient).filter(Ingredient.id.in_(ingredient_ids)).all()]
+    return ingredient_names

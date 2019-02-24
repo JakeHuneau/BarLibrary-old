@@ -12,7 +12,7 @@
     <br>
     <textarea title="ingredients" name="ingredients" cols="50" rows="10">{% if ingredients %}{{ ingredients }}{% else %}ex: vodka{% endif %}</textarea>
     <br>
-    <input type="submit" value="Search" >
+    <input type="submit" name="find_all.submitted" value="Search" >
 </form>
 {% if bad_ingredient_list %}
     <body>

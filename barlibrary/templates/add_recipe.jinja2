@@ -22,7 +22,7 @@
     <br>
     <textarea title="directions" name="directions" cols="50" rows="10">{% if directions %}{{ directions }}{% else %}ex: Muddle sugar; pour whiskey; add cherry{% endif %}</textarea>
     <br>
-    <input type="submit" value="Submit" >
+    <input type="submit" name="add.submitted" value="Submit" >
 </form>
 {% if bad_ingredient_input %}
     <body>

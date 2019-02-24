@@ -3,7 +3,7 @@ from pyramid.view import view_config
 from .add import add_to_db
 from .change_permission import change_user_permission
 from .delete import delete_recipe
-from .find import find_recipes, find_all_recipes
+from .find import find_recipes, find_all_recipes, get_initial_list
 from .kitchen import get_all_ingredients, update_kitchen
 from ..security import validate_user, add_user
 from ..exceptions import BadIngredientInput, RecipeAlreadyExists, RecipeDoesntExist
@@ -24,7 +24,7 @@ def bar_library_home_view(request):
 def add_recipe_view(request):
     if not request.session.get('permission', 0) & 1:  # Can add
         return {'get_out': 'YOU SHOULD NOT BE HERE.'}
-    if request.method == 'POST':
+    if 'add.submitted' in request.params:
         return_template = {'recipe_name': request.params.get('recipe_name'),
                            'ingredients': request.params.get('ingredients'),
                            'directions': request.params.get('directions')}
@@ -42,7 +42,7 @@ def add_recipe_view(request):
 def remove_recipe_view(request):
     if not request.session.get('permission', 0) & 2:  # Can delete
         return {'get_out': 'YOU SHOULD NOT BE HERE.'}
-    if request.method == 'POST':
+    if 'remove.submitted' in request.params:
         return_template = {}
 
         try:
@@ -58,7 +58,7 @@ def remove_recipe_view(request):
 
 @view_config(route_name='find_recipes', renderer='../templates/find_recipes.jinja2')
 def find_recipes_view(request):
-    if request.method == 'GET':
+    if 'find_all.submitted' in request.params:
         ingredients = request.params.get('ingredients')
         return_template = {'ingredients': ingredients}
         if ingredients:  # Make sure not none
@@ -66,11 +66,15 @@ def find_recipes_view(request):
             recipes = find_recipes(request.dbsession, ingredients)
             return_template['recipes_found'] = recipes
         return return_template
+    user = request.session.get('user')
+    if user:
+        ingredients = ', '.join(get_initial_list(request.dbsession, user))
+        return {'ingredients': ingredients}
     return {}
 
 @view_config(route_name='find_all', renderer='../templates/find_all.jinja2')
 def find_all_with_ingredients(request):
-    if request.method == 'GET':
+    if 'find.submitted' in request.params:
         ingredients = request.params.get('ingredients')
         return_template = {'ingredients': ingredients}
         if ingredients:  # Make sure not none
