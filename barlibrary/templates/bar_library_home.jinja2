@@ -6,16 +6,16 @@
 <body>
 <p>Welcome to the Bar Library! Choose an operation:</p>
 {% if can_write %}
-<li><a href="{{ request.application_url }}/add_recipe">Add recipe</a></li>
+<li><a href="{{ request.route_path('add_recipe') }}">Add recipe</a></li>
 {% endif %}
 {% if can_delete %}
-<li><a href="{{ request.application_url }}/remove_recipe">Remove recipe</a></li>
+<li><a href="{{ request.route_path('remove_recipe') }}">Remove recipe</a></li>
 {% endif %}
-<li><a href="{{ request.application_url }}/find_recipes">What can I make?</a></li>
-<li><a href="{{ request.application_url }}/find_all">What are all the recipes that contain these ingredients?</a></li>
-<li><a href="{{ request.application_url }}/user_page">User page</a></li>
+<li><a href="{{ request.route_path('find_recipes') }}">What can I make?</a></li>
+<li><a href="{{ request.route_path('find_all') }}">What are all the recipes that contain these ingredients?</a></li>
+<li><a href="{{ request.route_path('user_page') }}">User page</a></li>
 {% if can_change_permissions %}
-<li><a href="{{ request.application_url }}/change_permission">change Permissions</a></li>
+<li><a href="{{ request.route_path('change_permission') }}">change Permissions</a></li>
 {% endif %}
 </body>
 </html>
