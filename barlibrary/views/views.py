@@ -58,7 +58,8 @@ def remove_recipe_view(request):
 
 @view_config(route_name='find_recipes', renderer='../templates/find_recipes.jinja2')
 def find_recipes_view(request):
-    if 'find_all.submitted' in request.params:
+    print(request.params)
+    if 'find.submitted' in request.params:
         ingredients = request.params.get('ingredients')
         return_template = {'ingredients': ingredients}
         if ingredients:  # Make sure not none

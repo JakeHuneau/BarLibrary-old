@@ -15,9 +15,10 @@ def get_all_ingredients(db, user):
     Returns:
         (dict) {ingredient_name: True/False}. Each ingredient and if the user has it or not
     """
-    all_ingredients = db.query(Ingredient).all()
+    all_ingredients = db.query(Ingredient).order_by(Ingredient.name).all()
     user_id = db.query(User).filter(User.name==user).first().id
     user_ingredients = {k.ingredient_id for k in db.query(Kitchen).filter(Kitchen.user_id==user_id).all()}
+
     return {i.name: True if i.id in user_ingredients else False for i in all_ingredients}
 
 
