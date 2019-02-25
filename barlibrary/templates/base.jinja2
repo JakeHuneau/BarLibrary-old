@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+    <title>{% block title %}{% endblock %} - BarLibrary</title>
+    {% endblock %}
+</head>
+<a href="{{ request.route_path('bar_library_home') }}">Home</a>
+<body>
+<div id="description">
+    {% if get_out %}
+        <p>{{ get_out }}</p>
+    {% endif %}
+    <p>
+        {% block description %}
+        {% endblock %}
+    </p>
+</div>
+<div id="content">
+    {% block content %}{% endblock %}
+</div>
+</body>
+</html>

@@ -1,12 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>User Account</title>
-</head>
-<body>
-    <p>This page is for user stuff.</p>
-</body>
+{% extends "base.jinja2" %}
+{% block title %}User Account{% endblock %}
 
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block description %}This is the user account page.{% endblock %}
+
+{% block content %}
 <form action="{{ request.route_path('user_page') }}" method="POST">
     <label for="login">Username</label>
     <input type="text" id="login"
@@ -30,7 +31,6 @@
 {% endif %}
 
 {% if logged_in %}
-<a href="{{ request.route_path('kitchen') }}">Kitchen</a>
+<br><a href="{{ request.route_path('kitchen') }}">Kitchen</a>
 {% endif %}
-
-</html>
+{% endblock %}

@@ -1,9 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Bar Library</title>
-</head>
-<body>
+{% extends "base.jinja2" %}
+{% block title %}Home{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
 <p>Welcome to the Bar Library! Choose an operation:</p>
 {% if can_write %}
 <li><a href="{{ request.route_path('add_recipe') }}">Add recipe</a></li>
@@ -15,7 +17,6 @@
 <li><a href="{{ request.route_path('find_all') }}">What are all the recipes that contain these ingredients?</a></li>
 <li><a href="{{ request.route_path('user_page') }}">User page</a></li>
 {% if can_change_permissions %}
-<li><a href="{{ request.route_path('change_permission') }}">change Permissions</a></li>
+<li><a href="{{ request.route_path('change_permission') }}">Change Permissions</a></li>
 {% endif %}
-</body>
-</html>
+{% endblock %}

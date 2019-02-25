@@ -111,6 +111,7 @@ def user_page(request):
         request.session['permission'] = 0
         request.session['user'] = ''
         return_dict['message'] = 'Successfully logged out'
+        return_dict['logged_in'] = False
         return return_dict
     elif 'new_user.submitted' in request.params:
         login = request.params['login']

@@ -1,11 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Find Recipe</title>
-</head>
-<body>
-    <p>This page is for finding recipes</p>
-</body>
+{% extends "base.jinja2" %}
+{% block title %}Find Recipe{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block description %}This page is for finding all recipes that you can make with a list of ingredients.{% endblock %}
+
+{% block content %}
 <form method="GET" action="{{ request.route_path('find_recipes') }}">
     Ingredients (separate by commas):
     <br>
@@ -26,4 +28,4 @@
         {% endfor %}
     {% endif %}
 {% endif %}
-</html>
+{% endblock %}

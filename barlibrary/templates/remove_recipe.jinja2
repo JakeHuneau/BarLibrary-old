@@ -1,14 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Remove Recipe</title>
-</head>
-<body>
-    <p>This page is for removing a new recipe</p>
-{% if get_out %}
-<p>{{ get_out }}</p>
-{% endif %}
-</body>
+{% extends "base.jinja2" %}
+{% block title %}Remove Recipe{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block description %}This page is for removing a recipe.{% endblock %}
+
+{% block content %}
 <form method="POST" action="{{ request.route_path('remove_recipe') }}">
     Recipe Name:
     <br>
@@ -37,4 +36,4 @@
         {% endif %}
     {% endif %}
 {% endif %}
-</html>
+{% endblock %}
