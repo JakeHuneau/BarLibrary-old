@@ -26,7 +26,6 @@ def add_to_db(db, params):
     # break apart the directions and add a number in front of each direction.
     numbered_directions = ''.join(f'{i+1}. {d.strip()}. ' for i, d in enumerate(directions.split(';'))).strip()
     recipe = Recipe(name=recipe_name, directions=numbered_directions)
-    db.add(recipe)
 
     for ingredient_str in ingredients.split(','):
         ingredient_name, quantity, unit, required = parse_ingredient(ingredient_str)
@@ -41,6 +40,7 @@ def add_to_db(db, params):
                                 quantity=quantity,
                                 unit=unit,
                                 required=required)
+        db.add(recipe)
         db.add(link)
     db.flush()
     return recipe
