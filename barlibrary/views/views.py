@@ -101,6 +101,7 @@ def user_page(request):
             message = 'Successful login'
             request.session['permission'] = permission
             request.session['user'] = login
+            return_dict['logged_in'] = True
         else:
             message = 'Unknown error with login.'
         return_dict['message'] = message
@@ -123,6 +124,7 @@ def user_page(request):
             message = 'User already exists.'
         else:
             message = 'Added user'
+            return_dict['logged_in'] = True
         return_dict['message'] = message
         return return_dict
     return {}
