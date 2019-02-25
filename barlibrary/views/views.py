@@ -75,7 +75,7 @@ def find_recipes_view(request):
 
 @view_config(route_name='find_all', renderer='../templates/find_all.jinja2')
 def find_all_with_ingredients(request):
-    if 'find.submitted' in request.params:
+    if 'find_all.submitted' in request.params:
         ingredients = request.params.get('ingredients')
         return_template = {'ingredients': ingredients}
         if ingredients:  # Make sure not none
