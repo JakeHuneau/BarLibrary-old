@@ -2149,6 +2149,15 @@ textarea.form-control {
   margin-bottom: 1rem;
 }
 
+.columned {
+    -moz-column-count: 6;
+    -moz-column-gap: 10px;
+    -webkit-column-count: 6;
+    -webkit-column-gap: 10px;
+    column-count: 6;
+    column-gap: 10px;
+}
+
 .form-text {
   display: block;
   margin-top: 0.25rem;
@@ -3840,7 +3849,6 @@ input[type="button"].btn-block {
   display: block;
   min-height: 1.40625rem;
   padding-left: 1.5rem;
-  column-count: 4;
 }
 
 .custom-control-inline {
