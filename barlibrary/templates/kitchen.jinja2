@@ -9,9 +9,18 @@
 
 {% block content %}
 <form action="{{ request.route_path('kitchen') }}" method="GET">
+<div class="form-group">
+{% if kitchen_dict is defined %}
 {% for key, value in kitchen_dict.items() %}
-<input type="checkbox" name="{{ key }}" title="{{ key }}" {% if value %}checked="checked"{% endif %}>{{ key }}<br>
+    <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" name="{{ key }}" title="{{ key }}" id="{{ key }}" {% if value %}checked="checked"{% endif %}>
+        <label class="custom-control-label" for="{{ key }}">{{ key }}</label>
+    </div>
+{#<input type="checkbox" class="custom-control-input" name="{{ key }}" title="{{ key }}" {% if value %}checked="checked"{% endif %}>{{ key }}<br>#}
 {% endfor %}
-<input type="submit" name="update_ingredients.submitted" value="Update ingredients"/>
+{% endif %}
+</div>
+<br>
+<input type="submit" class="btn btn-primary" name="update_ingredients.submitted" value="Update ingredients"/>
 </form>
 {% endblock %}

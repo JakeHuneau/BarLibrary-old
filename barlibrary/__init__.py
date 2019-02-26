@@ -21,6 +21,7 @@ def main(global_config, **settings):
     config.set_authentication_policy(authn_policy)
     config.set_authorization_policy(authz_policy)
 
+    config.add_static_view(name='static', path='barlibrary:static')
     config.include('.models')
     config.include('.routes')
     config.scan()

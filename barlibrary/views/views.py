@@ -58,7 +58,6 @@ def remove_recipe_view(request):
 
 @view_config(route_name='find_recipes', renderer='../templates/find_recipes.jinja2')
 def find_recipes_view(request):
-    print(request.params)
     if 'find.submitted' in request.params:
         ingredients = request.params.get('ingredients')
         return_template = {'ingredients': ingredients}
@@ -90,6 +89,7 @@ def user_page(request):
     return_dict = dict()
     if request.session.get('user'):
         return_dict['logged_in'] = True
+
     if 'user_form.submitted' in request.params:
         login = request.params['login']
         password = request.params['password']
@@ -108,13 +108,13 @@ def user_page(request):
         return_dict['message'] = message
         return_dict['login'] = login
         return_dict['password'] = password
-        return return_dict
+
     elif 'logout.submitted' in request.params:
         request.session['permission'] = 0
         request.session['user'] = ''
         return_dict['message'] = 'Successfully logged out'
         return_dict['logged_in'] = False
-        return return_dict
+
     elif 'new_user.submitted' in request.params:
         login = request.params['login']
         password = request.params['password']
@@ -126,9 +126,11 @@ def user_page(request):
         else:
             message = 'Added user'
             return_dict['logged_in'] = True
+            request.session['permission'] = 0
+            request.session['user'] = login
         return_dict['message'] = message
-        return return_dict
-    return {}
+
+    return return_dict
 
 
 @view_config(route_name='change_permission', renderer='../templates/change_permission.jinja2')

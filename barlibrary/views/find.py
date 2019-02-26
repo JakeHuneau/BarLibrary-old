@@ -39,12 +39,12 @@ def find_recipes(db, ingredients_str):
 def find_all_recipes(db, ingredients_str):
     ingredients = set()
     for ingredient_str in set(ingredients_str):
-        ingredient = db.query(Ingredient).filter_by(name=ingredient_str).first()
+        ingredient = db.query(Ingredient).filter(Ingredient.name==ingredient_str).first()
         if ingredient:
             ingredients.add(ingredient)
     recipes = set()
     for ingredient in ingredients:
-        for found_recipe in db.query(RecipeIngredient).filter_by(ingredient_id=ingredient.id).all():
+        for found_recipe in db.query(RecipeIngredient).filter(RecipeIngredient.ingredient_id==ingredient.id).all():
             if found_recipe:
                 recipes.add(found_recipe.recipe_id)
     return [format_recipe(db, recipe) for recipe in recipes]
@@ -61,11 +61,13 @@ def format_recipe(db, found_recipe):
     Returns:
         (str) Pretty format of recipe
     """
-    recipe = db.query(Recipe).filter_by(id=found_recipe).first()
+    recipe = db.query(Recipe).filter(Recipe.id==found_recipe).first()
+    if not recipe:
+        return ''
     return_str = f'<br>---{recipe.name}---<br>'
     return_str += '<br>-Ingredients-<br>'
     for ingredient in recipe.recipe_ingredient:
-        ingredient_name = db.query(Ingredient.name).filter_by(id=ingredient.ingredient_id).first()[0]
+        ingredient_name = db.query(Ingredient.name).filter(Ingredient.id==ingredient.ingredient_id).first()[0]
         return_str += f'{ingredient_name}: {ingredient.quantity} {ingredient.unit}<br>'
     return_str += f'<br>-Directions-<br>{pretty_directions(recipe.directions)}'
     return return_str

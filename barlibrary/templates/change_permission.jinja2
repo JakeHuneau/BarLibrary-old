@@ -9,15 +9,15 @@
 
 {% block content %}
 <form method="POST" action="{{ request.route_path('change_permission') }}">
-    <label for="login">Username</label>
-    <input type="text" id="user"
+    <label for="user">Username</label>
+    <input class="form-control" type="text" id="user"
            name="user"><br/>
-    <label for="login">Permission</label>
-    <input type="text" id="permission"
+    <label for="permission">Permission</label>
+    <input class="form-control" type="text" id="permission"
            name="permission"><br/>
-    <input type="submit" name="form.submitted" value="Change Permission"/>
+    <input type="submit" class="btn btn-primary" name="form.submitted" value="Change Permission"/>
 </form>
 {% if message %}
-{{ message }}
+<p>{{ message }}</p>
 {% endif %}
 {% endblock %}

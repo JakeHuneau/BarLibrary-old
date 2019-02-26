@@ -9,19 +9,17 @@
 
 {% block content %}
 <form method="POST" action="{{ request.route_path('add_recipe') }}">
-    Recipe Name:
+    <label for="recipe">Recipe Name:</label>
+    <textarea class="form-control" id="recipe" title="recipe_name" name="recipe_name">{% if recipe_name %}{{ recipe_name }}{% else %}Put recipe name{% endif %}</textarea>
+
+    <label for="ingrdients">Ingredients (separate by commas with amount in brackets and x at end if not needed):</label>
+    <textarea class="form-control" id="ingredients" title="ingredients" name="ingredients" rows="3">{% if ingredients %}{{ ingredients }}{% else %}ex: whiskey [1.0 oz], sugar [1 cube], cherry [1] x, bitters [2 dash]{% endif %}</textarea>
+
+    <label for="directions">Directions (separate by semicolon):</label>
+    <textarea class="form-control" id="directions" title="directions" name="directions" rows="2">{% if directions %}{{ directions }}{% else %}ex: Muddle sugar; pour whiskey; add cherry{% endif %}</textarea>
+
     <br>
-    <textarea title="recipe_name" name="recipe_name" cols="50">{% if recipe_name %}{{ recipe_name }}{% else %}Put recipe name{% endif %}</textarea>
-    <br>
-    Ingredients (separate by commas with amount in brackets and x at end if not needed):
-    <br>
-    <textarea title="ingredients" name="ingredients" cols="50" rows="10">{% if ingredients %}{{ ingredients }}{% else %}ex: whiskey [1.0 oz], sugar [1 cube], cherry [1] x, bitters [2 dash]{% endif %}</textarea>
-    <br>
-    Directions (separate by semicolon):
-    <br>
-    <textarea title="directions" name="directions" cols="50" rows="10">{% if directions %}{{ directions }}{% else %}ex: Muddle sugar; pour whiskey; add cherry{% endif %}</textarea>
-    <br>
-    <input type="submit" name="add.submitted" value="Submit" >
+    <input type="submit" class="btn btn-primary" name="add.submitted" value="Submit" >
 </form>
 {% if bad_ingredient_input %}
     <body>
@@ -34,7 +32,10 @@
 {% else %}
     {% if recipe %}
         <body>
-            <p>Recipe added successfully:<br>{{ recipe | safe }}</p>
+            <br><p>Recipe added successfully:</p><br>
+            <div class="jumbotron">
+                {{ recipe | safe }}
+            </div>
         </body>
     {% endif %}
 {% endif %}

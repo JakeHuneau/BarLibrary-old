@@ -7,16 +7,18 @@
 
 {% block content %}
 <p>Welcome to the Bar Library! Choose an operation:</p>
-{% if can_write %}
-<li><a href="{{ request.route_path('add_recipe') }}">Add recipe</a></li>
-{% endif %}
-{% if can_delete %}
-<li><a href="{{ request.route_path('remove_recipe') }}">Remove recipe</a></li>
-{% endif %}
-<li><a href="{{ request.route_path('find_recipes') }}">What can I make?</a></li>
-<li><a href="{{ request.route_path('find_all') }}">What are all the recipes that contain these ingredients?</a></li>
-<li><a href="{{ request.route_path('user_page') }}">User page</a></li>
-{% if can_change_permissions %}
-<li><a href="{{ request.route_path('change_permission') }}">Change Permissions</a></li>
-{% endif %}
+<div class="list-group">
+    {% if can_write %}
+    <a href="{{ request.route_path('add_recipe') }}" class="list-group-item list-group-item-action">Add recipe</a>
+    {% endif %}
+    {% if can_delete %}
+    <a href="{{ request.route_path('remove_recipe') }}" class="list-group-item list-group-item-action">Remove recipe</a>
+    {% endif %}
+    <a href="{{ request.route_path('find_recipes') }}" class="list-group-item list-group-item-action">What can I make?</a>
+    <a href="{{ request.route_path('find_all') }}" class="list-group-item list-group-item-action">What are all the recipes that contain these ingredients?</a>
+    <a href="{{ request.route_path('user_page') }}" class="list-group-item list-group-item-action">User page</a>
+    {% if can_change_permissions %}
+    <a href="{{ request.route_path('change_permission') }}" class="list-group-item list-group-item-action">Change Permissions</a>
+    {% endif %}
+</div>
 {% endblock %}

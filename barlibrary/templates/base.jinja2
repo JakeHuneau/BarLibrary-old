@@ -4,16 +4,31 @@
     {% block head %}
     <title>{% block title %}{% endblock %} - BarLibrary</title>
     {% endblock %}
+    <link rel="stylesheet" type="text/css" href="{{ request.static_url('barlibrary:static/theme.css') }}">
 </head>
-<a href="{{ request.route_path('bar_library_home') }}">Home</a>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href="{{ request.route_path('bar_library_home') }}">BarLibrary</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarColor01">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="{{ request.route_path('bar_library_home') }}">Home <span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
 <body>
 <div id="description">
     {% if get_out %}
         <p>{{ get_out }}</p>
     {% endif %}
     <p>
-        {% block description %}
-        {% endblock %}
+        <h2>{% block description %}{% endblock %}</h2>
     </p>
 </div>
 <div id="content">
