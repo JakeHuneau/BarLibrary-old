@@ -10,7 +10,7 @@
 {% block content %}
 <form method="GET" action="{{ request.route_path('find_recipes') }}">
     <label for="ingredients">Ingredients (separate by commas):</label>
-    <textarea class="form-control" id="ingredients" title="ingredients" name="ingredients" cols="50" rows="10">{% if ingredients %}{{ ingredients }}{% else %}ex: bourbon, sugar, angostura bitters, water, orange, cherry{% endif %}</textarea>
+    <textarea class="form-control" id="ingredients" title="ingredients" name="ingredients" cols="50" rows="10" placeholder="{% if not ingredients %}ex: bourbon, sugar, angostura bitters, water, orange, cherry{% endif %}">{% if ingredients %}{{ ingredients }}{% endif %}</textarea>
 
     <br>
     <input type="submit" class="btn btn-primary" name="find.submitted" value="Search" >

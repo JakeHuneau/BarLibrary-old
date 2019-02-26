@@ -10,13 +10,13 @@
 {% block content %}
 <form method="POST" action="{{ request.route_path('add_recipe') }}">
     <label for="recipe">Recipe Name:</label>
-    <textarea class="form-control" id="recipe" title="recipe_name" name="recipe_name">{% if recipe_name %}{{ recipe_name }}{% else %}Put recipe name{% endif %}</textarea>
+    <textarea class="form-control" id="recipe" title="recipe_name" name="recipe_name" placeholder="{% if not recipe_name %}Put recipe name{% endif %}">{% if recipe_name %}{{ recipe_name }}{% endif %}</textarea>
 
     <label for="ingrdients">Ingredients (separate by commas with amount in brackets and x at end if not needed):</label>
-    <textarea class="form-control" id="ingredients" title="ingredients" name="ingredients" rows="3">{% if ingredients %}{{ ingredients }}{% else %}ex: whiskey [1.0 oz], sugar [1 cube], cherry [1] x, bitters [2 dash]{% endif %}</textarea>
+    <textarea class="form-control" id="ingredients" title="ingredients" name="ingredients" rows="3" placeholder="{% if not ingredients %}ex: whiskey [1.0 oz], sugar [1 cube], cherry [1] x, bitters [2 dash]{% endif %}">{% if ingredients %}{{ ingredients }}{% endif %}</textarea>
 
     <label for="directions">Directions (separate by semicolon):</label>
-    <textarea class="form-control" id="directions" title="directions" name="directions" rows="2">{% if directions %}{{ directions }}{% else %}ex: Muddle sugar; pour whiskey; add cherry{% endif %}</textarea>
+    <textarea class="form-control" id="directions" title="directions" name="directions" rows="2" placeholder="{% if not directions %}ex: Muddle sugar; pour whiskey; add cherry{% endif %}">{% if directions %}{{ directions }}{% endif %}</textarea>
 
     <br>
     <input type="submit" class="btn btn-primary" name="add.submitted" value="Submit" >

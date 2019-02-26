@@ -10,7 +10,8 @@
 {% block content %}
 <form method="POST" action="{{ request.route_path('remove_recipe') }}">
     <label for="recipe">Recipe Name:</label>
-    <textarea class="form-control" id="recipe" title="recipe_name" name="recipe_name" cols="50">Put recipe name</textarea>
+
+    <textarea class="form-control" id="recipe" title="recipe_name" name="recipe_name" cols="50" placeholder="Put recipe name"></textarea>
     <br>
     <input type="submit" class="btn btn-primary" name="remove.submitted" value="Submit" >
 </form>
