@@ -29,8 +29,4 @@
 <p>{{ message }}</p>
 </body>
 {% endif %}
-
-{% if logged_in %}
-<br><a href="{{ request.route_path('kitchen') }}" class="list-group-item list-group-item-action active">Go to your kitchen</a>
-{% endif %}
 {% endblock %}

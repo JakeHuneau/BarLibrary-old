@@ -8,18 +8,24 @@
 </head>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <a class="navbar-brand" href="{{ request.route_path('bar_library_home') }}">BarLibrary</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
+    <a class="navbar-brand" href="{{ request.route_path('bar_library_home') }}">BarLibrary</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
   </button>
 
-  <div class="collapse navbar-collapse" id="navbarColor01">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="{{ request.route_path('bar_library_home') }}">Home <span class="sr-only">(current)</span></a>
-      </li>
-    </ul>
-  </div>
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+            <a class="nav-link" href="{{ request.route_path('bar_library_home') }}">Home <span class="sr-only">(current)</span></a>
+        </li>
+
+          {% if request.session.get('user', '') != '' %}
+              <li class="nav-item active">
+                  <a class="nav-link" href="{{ request.route_path('user_page') }}">Logged in as {{ request.session.get('user') }} <span class="sr-only">(current)</span></a>
+              </li>
+          {% endif %}
+      </ul>
+    </div>
 </nav>
 
 <body>

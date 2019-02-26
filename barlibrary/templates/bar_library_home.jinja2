@@ -14,11 +14,16 @@
     {% if can_delete %}
     <a href="{{ request.route_path('remove_recipe') }}" class="list-group-item list-group-item-action">Remove recipe</a>
     {% endif %}
-    <a href="{{ request.route_path('find_recipes') }}" class="list-group-item list-group-item-action">What can I make?</a>
-    <a href="{{ request.route_path('find_all') }}" class="list-group-item list-group-item-action">What are all the recipes that contain these ingredients?</a>
+    <a href="{{ request.route_path('find_recipes') }}" class="list-group-item list-group-item-action">What can I make with what I have?</a>
+    <a href="{{ request.route_path('find_all') }}" class="list-group-item list-group-item-action">What drinks contain these ingredients?</a>
     <a href="{{ request.route_path('user_page') }}" class="list-group-item list-group-item-action">User page</a>
+
+    {% if request.session.get('user', '') != '' %}
+        <a href="{{ request.route_path('kitchen') }}" class="list-group-item list-group-item-action">Look in my kitchen</a>
+    {% endif %}
+
     {% if can_change_permissions %}
-    <a href="{{ request.route_path('change_permission') }}" class="list-group-item list-group-item-action">Change Permissions</a>
+        <a href="{{ request.route_path('change_permission') }}" class="list-group-item list-group-item-action">Change Permissions</a>
     {% endif %}
 </div>
 {% endblock %}
