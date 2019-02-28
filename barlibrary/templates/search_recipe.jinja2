@@ -1,0 +1,16 @@
+{% extends "base.jinja2" %}
+{% block title %}Drink Search{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block description %}This page is for searching for a drink.{% endblock %}
+
+{% block content %}
+    {% if recipe %}
+        {{ recipe | safe }}
+    {% else %}
+        No results found for {{ request.params.get('drink', '') }}
+    {% endif %}
+{% endblock %}

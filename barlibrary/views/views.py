@@ -1,10 +1,12 @@
 from pyramid.view import view_config
+from pyramid.httpexceptions import HTTPFound
 
 from .add import add_to_db
 from .change_permission import change_user_permission
 from .delete import delete_recipe
 from .find import find_recipes, find_all_recipes, get_initial_list
 from .kitchen import get_all_ingredients, update_kitchen
+from .search_recipe import search
 from ..security import validate_user, add_user
 from ..exceptions import BadIngredientInput, RecipeAlreadyExists, RecipeDoesntExist
 
@@ -146,6 +148,7 @@ def change_permission(request):
         return {'message': 'Failed'}
     return {}
 
+
 @view_config(route_name='kitchen', renderer='../templates/kitchen.jinja2')
 def kitchen(request):
     user = request.session.get('user')
@@ -154,5 +157,12 @@ def kitchen(request):
     if 'update_ingredients.submitted' in request.params:
         checked_ingredients = {ing[0] for ing in request.params.items() if ing[1] == 'on'}
         update_kitchen(request.dbsession, user, checked_ingredients)
+        return HTTPFound(location=request.route_path('find_recipes'))
     kitchen_dict = get_all_ingredients(request.dbsession, user)
     return {'kitchen_dict': kitchen_dict}
+
+
+@view_config(route_name='search_recipe', renderer='../templates/search_recipe.jinja2')
+def search_recipe(request):
+    recipe = search(request.dbsession, request.params.get('drink', ''))
+    return {'recipe': recipe}
