@@ -11,3 +11,4 @@ def includeme(config):
     config.add_route('change_permission', 'change_permission')
     config.add_route('kitchen', 'kitchen')
     config.add_route('search_recipe', 'search_recipe')
+    config.add_route('new_user', 'new_user')

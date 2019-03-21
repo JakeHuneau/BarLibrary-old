@@ -1,13 +1,15 @@
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPFound
 
+import requests
+
 from .add import add_to_db
 from .change_permission import change_user_permission
 from .delete import delete_recipe
 from .find import find_recipes, find_all_recipes, get_initial_list
 from .kitchen import get_all_ingredients, update_kitchen
 from .search_recipe import search
-from ..security import validate_user, add_user
+from ..security import validate_user, add_user, get_secret
 from ..exceptions import BadIngredientInput, RecipeAlreadyExists, RecipeDoesntExist
 
 
@@ -118,19 +120,36 @@ def user_page(request):
         return_dict['logged_in'] = False
 
     elif 'new_user.submitted' in request.params:
-        login = request.params['login']
-        password = request.params['password']
-        add_success = add_user(request.dbsession, login, password)
-        if add_success == -1:
-            message = 'Unknown error.'
-        elif add_success == 0:
-            message = 'User already exists.'
+        return HTTPFound(location=request.route_path('new_user'))
+
+    return return_dict
+
+
+@view_config(route_name='new_user', renderer='../templates/new_user.jinja2')
+def new_user(request):
+    secrets = get_secret()
+    return_dict = {'google_public': secrets['google']['public']}
+    if 'new_user.submitted' in request.params:
+        print(request.params)
+        url = 'https://www.google.com/recaptcha/api/siteverify'
+        params = {'secret': get_secret()['google']['private'],
+                  'response': request.params.get('g-recaptcha-response'),
+                  'remoteip': request.remote_addr}
+        r = requests.post(url, params=params)
+        if r.status_code != 200:
+            return_dict['message'] = 'Unknown Error. Try again, I guess.'
+            return return_dict
+        human = r.json()['success']
+        if not human:
+            return_dict['message'] = "Try again when you're human"
+            return return_dict
+        success = add_user(request.dbsession, request.params.get('username'), request.params.get('password'))
+        if success == 0:
+            return_dict['message'] = 'User already exists, try again'
+        elif success == 1:
+            return_dict['message'] = 'Successfully added user'
         else:
-            message = 'Added user'
-            return_dict['logged_in'] = True
-            request.session['permission'] = 0
-            request.session['user'] = login
-        return_dict['message'] = message
+            return_dict['message'] = 'Unknown Error. Try again, I guess.'
 
     return return_dict
 

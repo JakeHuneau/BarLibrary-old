@@ -8,25 +8,24 @@
 {% block description %}This is the user account page.{% endblock %}
 
 {% block content %}
-<form action="{{ request.route_path('user_page') }}" method="POST">
-    <label for="login">Username</label>
-    <input class="form-control" type="text" id="login"
-           name="login"
-           value={% if login is defined %}{{ login }}{% endif %}><br/>
-    <label for="password">Password</label>
-    <input class="form-control" type="password" id="password"
-           name="password"
-           value={% if password is defined %}{{ password }}{% endif %}><br/>
-    <input class="btn btn-primary" type="submit" name="user_form.submitted"
-           value="Log In"/>
-    <input class="btn btn-primary" type="submit" name="logout.submitted"
-           value="Log Out"/>
-    <input class="btn btn-primary" type="submit" name="new_user.submitted" value="Add Account"/>
-</form>
+    <form action="{{ request.route_path('user_page') }}" method="POST">
+        <label for="login">Username</label>
+        <input class="form-control" type="text" id="login" name="login"
+               value={% if login is defined %}{{ login }}{% endif %}><br/>
+        <label for="password">Password</label>
+        <input class="form-control" type="password" id="password" name="password"
+               value={% if password is defined %}{{ password }}{% endif %}><br/>
+        <input class="btn btn-primary" type="submit" name="user_form.submitted"
+               value="Log In"/>
+        <input class="btn btn-primary" type="submit" name="logout.submitted"
+               value="Log Out"/>
+        <input class="btn btn-primary" type="submit" name="new_user.submitted"
+               value="New User"/>
+    </form>
 
-{% if message is defined %}
-<body>
-<p>{{ message }}</p>
-</body>
-{% endif %}
+    {% if message is defined %}
+        <body>
+        <p>{{ message }}</p>
+        </body>
+    {% endif %}
 {% endblock %}

@@ -1,3 +1,5 @@
+import json
+
 import bcrypt
 
 from .models import User
@@ -30,3 +32,12 @@ def add_user(db, user, pwd):
         return 1
     except:
         return -1
+
+
+def get_secret():
+    """
+    Returns secrets as a dict
+    """
+    with open('secrets') as f:
+        secrets = json.load(f)
+    return secrets

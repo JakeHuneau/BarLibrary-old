@@ -1,0 +1,30 @@
+{% extends "base.jinja2" %}
+{% block title %}New User{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+{% endblock %}
+
+{% block description %}This page for creating a new account{% endblock %}
+
+{% block content %}
+<form action="{{ request.route_path('new_user') }}" method="POST">
+    <label for="username">Username</label>
+    <input class="form-control" type="text" id="username" name="username"
+           value={% if login is defined %}{{ login }}{% endif %}><br/>
+    <label for="password">Password</label>
+    <input class="form-control" type="password" id="password" name="password"
+           value={% if password is defined %}{{ password }}{% endif %}><br/>
+    <div class="g-recaptcha" data-sitekey="{{ google_public }}"></div>
+    <br/>
+    <input type="submit" value="Submit">
+    <input class="btn btn-primary" type="submit" name="new_user.submitted" value="Create account"/>
+</form>
+
+{% if message is defined %}
+<body>
+<p>{{ message }}</p>
+</body>
+{% endif %}
+{% endblock %}
