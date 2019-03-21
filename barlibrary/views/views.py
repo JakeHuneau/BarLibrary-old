@@ -130,7 +130,6 @@ def new_user(request):
     secrets = get_secret()
     return_dict = {'google_public': secrets['google']['public']}
     if 'new_user.submitted' in request.params:
-        print(request.params)
         url = 'https://www.google.com/recaptcha/api/siteverify'
         params = {'secret': get_secret()['google']['private'],
                   'response': request.params.get('g-recaptcha-response'),
