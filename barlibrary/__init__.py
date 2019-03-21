@@ -26,8 +26,3 @@ def main(global_config, **settings):
     config.include('.routes')
     config.scan()
     return config.make_wsgi_app()
-
-
-# Captcha v2
-# 6Lez0ZgUAAAAAJ6-VecF-6SnC4RzfV0TKLLRlX6s
-# 6Lez0ZgUAAAAAAet4VKAnJglWEyFdAbG7dT5j_gZ
