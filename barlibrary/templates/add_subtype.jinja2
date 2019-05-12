@@ -1,0 +1,37 @@
+{% extends "base.jinja2" %}
+{% block title %}Add Subtype{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block description %}This page is for adding a new subtype{% endblock %}
+
+{% block content %}
+<form method="POST" action="{{ request.route_path('add_subtype') }}">
+    <label for='specific'>Specific Ingredient Name:</label>
+    <textarea class="form-control" id="specific" title="specific" name="specific" placeholder="{% if not specific %}Put Specific Ingredient{% endif %}">{% if specific %}{{ specific }}{% endif %}</textarea>
+
+   <label for="generic">Generic Ingredient Name:</label>
+   <textarea class="form-control" id="generic" title="generic" name="generic" placeholder="{% if not generic %}Put Generic Ingredient{% endif %}">{% if generic %}{{ generic }}{% endif %}</textarea>
+
+   <br>
+   <input type="submit" class="btn btn-primary" name="add_subtype.submitted" value="Sumbit" ></form>
+
+{% if specific_dne %}
+    <body>
+        <p>Specific Ingredient does not exist in ingredients</p>
+    </body>
+{% elif generic_dne %}
+    <body>
+        <p>Generic Ingredient does not exist in ingredients</p>
+    </body>
+{% elif specific_already_subtype %}
+    <body>
+        <p>Specific Ingredient already exists in subtypes</p>
+{% elif success %}
+    <body>
+        <p>Successfully added subtype</p>
+    </body>
+{% endif %}
+{% endblock %}

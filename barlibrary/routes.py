@@ -12,3 +12,4 @@ def includeme(config):
     config.add_route('kitchen', 'kitchen')
     config.add_route('search_recipe', 'search_recipe')
     config.add_route('new_user', 'new_user')
+    config.add_route('add_subtype', 'add_subtype')

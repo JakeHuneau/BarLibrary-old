@@ -9,11 +9,13 @@
 <p>Welcome to the Bar Library! Choose an operation:</p>
 <div class="list-group">
     {% if can_write %}
-    <a href="{{ request.route_path('add_recipe') }}" class="list-group-item list-group-item-action">Add recipe</a>
+        <a href="{{ request.route_path('add_recipe') }}" class="list-group-item list-group-item-action">Add recipe</a>
     {% endif %}
+
     {% if can_delete %}
-    <a href="{{ request.route_path('remove_recipe') }}" class="list-group-item list-group-item-action">Remove recipe</a>
+        <a href="{{ request.route_path('remove_recipe') }}" class="list-group-item list-group-item-action">Remove recipe</a>
     {% endif %}
+
     <a href="{{ request.route_path('find_recipes') }}" class="list-group-item list-group-item-action">What can I make with what I have?</a>
     <a href="{{ request.route_path('find_all') }}" class="list-group-item list-group-item-action">Discover new drinks that contain some ingredients</a>
     <a href="{{ request.route_path('user_page') }}" class="list-group-item list-group-item-action">User page</a>
@@ -24,6 +26,7 @@
 
     {% if can_change_permissions %}
         <a href="{{ request.route_path('change_permission') }}" class="list-group-item list-group-item-action">Change Permissions</a>
-    {% endif %}
+        <a href="{{ request.route_path('add_subtype') }}" class="list-group-item list-group-item-action">Add Subtype</a>
+   {% endif %}
 </div>
 {% endblock %}

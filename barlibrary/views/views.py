@@ -9,6 +9,7 @@ from .delete import delete_recipe
 from .find import find_recipes, find_all_recipes, get_initial_list
 from .kitchen import get_all_ingredients, update_kitchen
 from .search_recipe import search
+from ..models import Ingredient, Subtype
 from ..security import validate_user, add_user, get_secret
 from ..exceptions import BadIngredientInput, RecipeAlreadyExists, RecipeDoesntExist
 
@@ -184,3 +185,38 @@ def kitchen(request):
 def search_recipe(request):
     recipe = search(request.dbsession, request.params.get('drink', ''))
     return {'recipe': recipe}
+
+
+@view_config(route_name='add_subtype', renderer='../templates/add_subtype.jinja2')
+def add_subtype(request):
+    if not request.session.get('permission', 0) & 4:
+        return {'get_out': 'YOU SHOULD NOT BE HERE.'}
+
+    if 'add_subtype.submitted' in request.params:
+        return_dict = {}
+        specific = request.params.get('specific')
+        generic = request.params.get('generic')
+        return_dict['specific'] = specific
+        return_dict['generic'] = generic
+
+        specific_id = request.dbsession.query(Ingredient).filter(Ingredient.name==specific).first()
+        generic_id = request.dbsession.query(Ingredient).filter(Ingredient.name==generic).first()
+
+        if not specific_id:
+            return_dict['specific_dne'] = True
+            return return_dict
+        if not generic_id:
+            return_dict['generic_dne'] = True
+            return return_dict
+
+        if request.dbsession.query(Subtype).filter(Subtype.specific==specific_id.id).first():
+            return_dict['specific_already_subtype'] = True
+            return return_dict
+
+        new_subtype = Subtype(specific=specific_id.id, generic=generic_id.id)
+        request.dbsession.add(new_subtype)
+        request.dbsession.flush()
+
+        return_dict['success'] = True
+        return return_dict
+    return {}
