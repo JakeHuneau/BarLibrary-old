@@ -1,6 +1,6 @@
 from collections import defaultdict
 
-from ..models import Recipe, RecipeIngredient, Ingredient, Kitchen, User
+from ..models import Recipe, RecipeIngredient, Ingredient, Kitchen, User, Subtype
 
 
 def find_recipes(db, ingredients_str):
@@ -18,10 +18,14 @@ def find_recipes(db, ingredients_str):
     for ingredient_str in set(ingredients_str):
         ingredient = db.query(Ingredient).filter_by(name=ingredient_str).first()
         if ingredient:
-            ingredients.add(ingredient)
+            ingredients.add(ingredient.id)
+
+    # Add subtypes of every ingredient
+    ingredients = ingredients.union(get_subtypes(db, ingredients))
+
     ingredient_pieces = defaultdict(set)
     for ingredient in ingredients:
-        recipe_pieces = db.query(RecipeIngredient).filter_by(ingredient_id=ingredient.id).all()
+        recipe_pieces = db.query(RecipeIngredient).filter_by(ingredient_id=ingredient).all()
         for recipe_piece in recipe_pieces:
             if recipe_piece.required == 1:  # Only want to consider required ingredients
                 ingredient_pieces[recipe_piece.recipe_id].add(recipe_piece)
@@ -41,10 +45,13 @@ def find_all_recipes(db, ingredients_str):
     for ingredient_str in set(ingredients_str):
         ingredient = db.query(Ingredient).filter(Ingredient.name==ingredient_str).first()
         if ingredient:
-            ingredients.add(ingredient)
+            ingredients.add(ingredient.id)
+
+    ingredients = ingredients.union(get_subtypes(db, ingredients))
+
     recipes = set()
     for ingredient in ingredients:
-        for found_recipe in db.query(RecipeIngredient).filter(RecipeIngredient.ingredient_id==ingredient.id).all():
+        for found_recipe in db.query(RecipeIngredient).filter(RecipeIngredient.ingredient_id==ingredient).all():
             if found_recipe:
                 recipes.add(found_recipe.recipe_id)
     return [format_recipe(db, recipe) for recipe in recipes]
@@ -99,3 +106,19 @@ def get_initial_list(db, user):
     ingredient_ids = {k.ingredient_id for k in db.query(Kitchen).filter(Kitchen.user_id == user_id).all()}
     ingredient_names = [k.name for k in db.query(Ingredient).filter(Ingredient.id.in_(ingredient_ids)).all()]
     return ingredient_names
+
+
+def get_subtypes(db, ingredients):
+    """
+    Finds all the subtypes of an ingredient
+
+    Returns:
+        (set[int]) a set of all id's for specific ingredients
+    """
+    new_ingredients = set()
+    for ingredient in ingredients:
+        subtypes = db.query(Subtype).filter(Subtype.generic==ingredient).all()
+        for subtype in subtypes:
+            new_ingredients.add(subtype.specific)
+    return new_ingredients
+

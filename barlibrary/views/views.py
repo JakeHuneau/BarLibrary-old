@@ -16,6 +16,9 @@ from ..exceptions import BadIngredientInput, RecipeAlreadyExists, RecipeDoesntEx
 
 @view_config(route_name='bar_library_home', renderer='../templates/bar_library_home.jinja2')
 def bar_library_home_view(request):
+    """
+    Home view for site. Checks user permissions for what they can do
+    """
     return_dict = {}
     if request.session.get('permission', 0) & 1:
         return_dict['can_write'] = True
@@ -27,6 +30,9 @@ def bar_library_home_view(request):
 
 @view_config(route_name='add_recipe', renderer='../templates/add_recipe.jinja2')
 def add_recipe_view(request):
+    """
+    Adds a new recipe.
+    """
     if not request.session.get('permission', 0) & 1:  # Can add
         return {'get_out': 'YOU SHOULD NOT BE HERE.'}
     if 'add.submitted' in request.params:
@@ -45,6 +51,9 @@ def add_recipe_view(request):
 
 @view_config(route_name='remove_recipe', renderer='../templates/remove_recipe.jinja2')
 def remove_recipe_view(request):
+    """
+    Remove a recipe from the DB
+    """
     if not request.session.get('permission', 0) & 2:  # Can delete
         return {'get_out': 'YOU SHOULD NOT BE HERE.'}
     if 'remove.submitted' in request.params:
@@ -63,6 +72,9 @@ def remove_recipe_view(request):
 
 @view_config(route_name='find_recipes', renderer='../templates/find_recipes.jinja2')
 def find_recipes_view(request):
+    """
+    Finds the recipes that contain all the ingredients given
+    """
     if 'find.submitted' in request.params:
         ingredients = request.params.get('ingredients')
         return_template = {'ingredients': ingredients}
@@ -79,6 +91,9 @@ def find_recipes_view(request):
 
 @view_config(route_name='find_all', renderer='../templates/find_all.jinja2')
 def find_all_with_ingredients(request):
+    """
+    Finds all recipes with any of the ingredients given
+    """
     if 'find_all.submitted' in request.params:
         ingredients = request.params.get('ingredients')
         return_template = {'ingredients': ingredients}
@@ -91,6 +106,9 @@ def find_all_with_ingredients(request):
 
 @view_config(route_name='user_page', renderer='../templates/user.jinja2')
 def user_page(request):
+    """
+    All the user actions
+    """
     return_dict = dict()
     if request.session.get('user'):
         return_dict['logged_in'] = True
@@ -128,6 +146,9 @@ def user_page(request):
 
 @view_config(route_name='new_user', renderer='../templates/new_user.jinja2')
 def new_user(request):
+    """
+    Add a new user
+    """
     secrets = get_secret()
     return_dict = {'google_public': secrets['google']['public']}
     if 'new_user.submitted' in request.params:
@@ -156,6 +177,9 @@ def new_user(request):
 
 @view_config(route_name='change_permission', renderer='../templates/change_permission.jinja2')
 def change_permission(request):
+    """
+    Change the permissions of a user
+    """
     if not request.session.get('permission', 0) & 4:  # Can add
         return {'get_out': 'YOU SHOULD NOT BE HERE.'}
     if 'form.submitted' in request.params:
@@ -170,6 +194,9 @@ def change_permission(request):
 
 @view_config(route_name='kitchen', renderer='../templates/kitchen.jinja2')
 def kitchen(request):
+    """
+    Edit the recipe page of a user
+    """
     user = request.session.get('user')
     if not user:
         return {'get_out': 'YOU SHOULD NOT BE HERE. PLEASE LOG INTO AN ACCOUNT.'}
@@ -183,12 +210,18 @@ def kitchen(request):
 
 @view_config(route_name='search_recipe', renderer='../templates/search_recipe.jinja2')
 def search_recipe(request):
+    """
+    Search fro a single recipe by name
+    """
     recipe = search(request.dbsession, request.params.get('drink', ''))
     return {'recipe': recipe}
 
 
 @view_config(route_name='add_subtype', renderer='../templates/add_subtype.jinja2')
 def add_subtype(request):
+    """
+    Add an ingredient subtype
+    """
     if not request.session.get('permission', 0) & 4:
         return {'get_out': 'YOU SHOULD NOT BE HERE.'}
 
