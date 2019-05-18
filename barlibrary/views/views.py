@@ -126,6 +126,7 @@ def user_page(request):
             request.session['permission'] = permission
             request.session['user'] = login
             return_dict['logged_in'] = True
+            return HTTPFound(location=request.route_path('bar_library_home'))
         else:
             message = 'Unknown error with login.'
         return_dict['message'] = message
@@ -169,6 +170,10 @@ def new_user(request):
             return_dict['message'] = 'User already exists, try again'
         elif success == 1:
             return_dict['message'] = 'Successfully added user'
+            request.session['permission'] = 0
+            request.session['user'] = request.params.get('username')
+            return_dict['logged_in'] = True
+            return HTTPFound(location=request.route_path('kitchen'))
         else:
             return_dict['message'] = 'Unknown Error. Try again, I guess.'
 
@@ -253,3 +258,18 @@ def add_subtype(request):
         return_dict['success'] = True
         return return_dict
     return {}
+
+@view_config(route_name='contact', renderer='../templates/contact.jinja2')
+def contact(request):
+    """
+    Send a message. Saves it to a JSON
+    """
+    if 'contact.submitted' in request.params:
+        email = request.params.get('email')
+        message = request.params.get('message')
+
+        with open('messages', 'a') as f:
+            f.write(f'email: {email}\nmessage: {message}\n\n\n')
+        return {'success': True}
+    return {}
+
