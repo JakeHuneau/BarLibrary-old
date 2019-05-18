@@ -15,6 +15,10 @@ requires = [
     'pyramid_jinja2',
     'pyramid_debugtoolbar',
     'waitress',
+    'zope.sqlalchemy',
+    'pyramid_tm',
+    'pyramid_retry',
+    'requests'
     ]
 
 setup(name='BarLibrary',
