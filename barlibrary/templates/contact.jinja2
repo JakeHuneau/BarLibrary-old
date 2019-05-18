@@ -1,0 +1,26 @@
+{% extends "base.jinja2" %}
+{% block title %}Contact{% endblock  %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block description %}This page is for contacting Jake{% endblock %}
+
+{% block content %}
+<form method="POST" action="{{ request.route_path('contact') }}">
+    <label for='email'>Email address:</label>
+    <textarea class="form-control" id="email" title="email" name="email"></textarea>
+
+    <label ford='message'>Enter message:</label>
+    <textarea class="form-control" id="message" title="message" name="message"></textarea>
+
+    <br>
+    <input type="submit" class="btn btn-primary" name="contact.submitted" value="Submit"></form>
+
+{% if success %}
+    <body>
+        <p>Successfully sent message</p>
+    </body>
+{% endif %}
+{% endblock %}
