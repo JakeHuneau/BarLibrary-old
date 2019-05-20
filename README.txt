@@ -1,12 +1,4 @@
 BarLibrary README
 ==================
 
-Getting Started
----------------
-
-- cd <directory containing this file>
-
-- $VENV/bin/pip install -e .
-
-- $VENV/bin/pserve development.ini
-
+A webapp using Pyramid that will show you what cocktails you can make from a list of ingredients.
