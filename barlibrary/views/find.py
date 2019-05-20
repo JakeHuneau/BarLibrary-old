@@ -71,12 +71,12 @@ def format_recipe(db, found_recipe):
     recipe = db.query(Recipe).filter(Recipe.id==found_recipe).first()
     if not recipe:
         return ''
-    return_str = f'<br>---{recipe.name}---<br>'
-    return_str += '<br>-Ingredients-<br>'
+    return_str = f'<hr><h1>-: {recipe.name} :-</h1>'
+    return_str += '<h4> Ingredients</h4>'
     for ingredient in recipe.recipe_ingredient:
         ingredient_name = db.query(Ingredient.name).filter(Ingredient.id==ingredient.ingredient_id).first()[0]
-        return_str += f'{ingredient_name}: {ingredient.quantity} {ingredient.unit}<br>'
-    return_str += f'<br>-Directions-<br>{pretty_directions(recipe.directions)}'
+        return_str += f'+ {ingredient_name}: {ingredient.quantity} {ingredient.unit}<br>'
+    return_str += f'<br><h4>Directions</h4>{pretty_directions(recipe.directions)}'
     return return_str
 
 

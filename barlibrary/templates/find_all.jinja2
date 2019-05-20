@@ -22,9 +22,9 @@
 {% else %}
     {% if recipes_found %}
         {% for recipe in recipes_found %}
-<br>**************************************************
+
 {{ recipe | safe }}
-<br>**************************************************<br>
+
         {% endfor %}
     {% endif %}
 {% endif %}
