@@ -93,6 +93,14 @@ p {
   margin-bottom: 1rem;
 }
 
+div.description {
+  padding-left: 10px;
+}
+
+div.recipe {
+  padding-left: 10px;
+}
+
 abbr[title],
 abbr[data-original-title] {
   text-decoration: underline;

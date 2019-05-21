@@ -22,9 +22,7 @@
 {% else %}
     {% if recipes_found %}
         {% for recipe in recipes_found %}
-<br>
-{{ recipe | safe }}
-<br>
+           <div class='recipe'>{{ recipe | safe }}</div>
         {% endfor %}
     {% endif %}
 {% endif %}
